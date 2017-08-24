@@ -12,7 +12,7 @@ int main()
     num = Generica("Ingrese un operando: ", "Operando A = ");
     num2 = Generica("Ingrese otro operando: ", "Operando B = ");
     div = Divi(num, num2);
-    printf("El resultado de la division es: %1.f\n", div);
+    printf("El resultado de la division es: %.3f\n", div);
     printf("la concha tuya");
     return 0;
 }
@@ -56,7 +56,7 @@ float Divi(int n1, int n2)  //Validar por cero dentro del case del main????
         printf("Ingrese un divisor distinto a cero.\n");
         break;
         default:
-        divi = n1 / n2;
+        divi =(float) n1 / n2;
     }
     return divi;
 }
