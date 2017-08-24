@@ -13,7 +13,6 @@ int main()
     num2 = Generica("Ingrese otro operando: ", "Operando B = ");
     div = Divi(num, num2);
     printf("El resultado de la division es: %.3f\n", div);
-    printf("la concha tuya");
     return 0;
 }
 
