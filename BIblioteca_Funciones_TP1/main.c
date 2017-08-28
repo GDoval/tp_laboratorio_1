@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-int Generica(char texto[], char texto2[]);
-int Resta (int n1, int n2);
-int Suma(int n1, int n2);
-int Multi(int n1, int n2);
-float Divi(int n1, int n2);
+float Generica(char texto[], char texto2[]);
+float Resta (float n1, float n2);
+float Suma(float n1, float n2);
+float Multi(float n1, float n2);
+float Divi(float n1, float n2);
 int main()
 {
-    int num, num2;
+    float num, num2;
     float div;
     num = Generica("Ingrese un operando: ", "Operando A = ");
     num2 = Generica("Ingrese otro operando: ", "Operando B = ");
@@ -16,46 +16,39 @@ int main()
     return 0;
 }
 
-int Generica(char texto[], char texto2[]) // Funciona
+float Generica(char texto[], char texto2[]) // Funciona
 {
-    int numero;
+    float numero;
     printf("%s", texto);
-    scanf("%d", &numero);
-    printf("%s""%d \n", texto2, numero);
+    scanf("%f", &numero);
+    printf("%s""%f \n", texto2, numero);
     return numero;
 }
 
-int Suma(int n1, int n2)
+float Suma(float n1, float n2)
 {
-    int suma;
+    float suma;
     suma = n1 + n2;
     return suma;
 }
 
-int Resta (int n1, int n2)
+float Resta (float n1, float n2)
 {
-    int resta;
+    float resta;
     resta = n1 - n2;
     return resta;
 }
 
-int Multi(int n1, int n2)
+float Multi(float n1, float n2)
 {
-    int multi;
+    float multi;
     multi = n1 * n2;
     return multi;
 }
 
-float Divi(int n1, int n2)  //Validar por cero dentro del case del main????
+float Divi(float n1, float n2)  //Validar por cero dentro del case del main????
 {
-    float divi = 0.0;
-    switch(n2)
-    {
-        case 0:
-        printf("Ingrese un divisor distinto a cero.\n");
-        break;
-        default:
-        divi =(float) n1 / n2;
-    }
+    float divi;
+    divi = n1 / n2;
     return divi;
 }

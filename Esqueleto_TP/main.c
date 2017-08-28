@@ -85,7 +85,7 @@ int main()
 }
 
 
-float IngresoFloat(char texto[]) // Funciona
+float IngresoFloat(char texto[]) // La funcion recive como parametro un texto que indica el tipo de dato que quiere ingresarse. Imprime por pantalla el texto ingresado como parametro, y toma y retorna un numero de tipo float.
 {
     float numero;
     printf("%s", texto);
@@ -93,28 +93,28 @@ float IngresoFloat(char texto[]) // Funciona
     return numero;
 }
 
-float Resta (float n1, float n2)
+float Resta (float n1, float n2) // Se restan los numeros pasados como argumentos.
 {
     float resta;
     resta = n1 - n2;
     return resta;
 }
 
-float Suma(float n1, float n2)
+float Suma(float n1, float n2) // Se suman los numeros pasados como argumentos.
 {
     float suma;
     suma = n1 + n2;
     return suma;
 }
 
-float Multi(float n1, float n2)
+float Multi(float n1, float n2) //Se multiplican los numeros pasados como argumentos.
 {
     float multi;
     multi = n1 * n2;
     return multi;
 }
 
-float Divi(float n1, float n2)
+float Divi(float n1, float n2) //Se dividen los numeros pasados como argumentos. La validacion de si el divisor es un 0 se realiza en una funcion aparte.
 {
     float divi;
     divi = n1 / n2;
