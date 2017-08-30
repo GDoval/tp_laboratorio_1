@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Biblioteca.h"  //Probandoooooooooooo
+#include "Biblioteca.h"
 int main()
 {
     char seguir='s';
