@@ -29,14 +29,12 @@ int main()
         switch(opcion)
         {
             case 1:
-                system("clear");
                 num1 = IngresoFloat("Ingrese el operando A: ");
-                //system("clear");
+                system("clear");
                 break;
             case 2:
-                system("clear");
                 num2 = IngresoFloat("Ingrese operando B: ");
-                //system("clear");
+                system("clear");
                 break;
             case 3:
                 sum = Suma(num1,num2);
@@ -155,5 +153,3 @@ int main()
     }
     return 0;
 }
-
-
