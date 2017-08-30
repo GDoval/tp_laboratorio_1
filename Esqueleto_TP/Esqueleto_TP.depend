@@ -1,5 +1,13 @@
 # depslib dependency file v1.0
-1503955525 source:/home/charly/CosasGit/tp_laboratorio_1/Esqueleto_TP/main.c
+1504126012 source:/home/charly/CosasGit/tp_laboratorio_1/Esqueleto_TP/main.c
 	<stdio.h>
 	<stdlib.h>
+	"Biblioteca.h"
+
+1504124307 source:/home/charly/CosasGit/tp_laboratorio_1/Esqueleto_TP/Biblioteca.c
+	<stdio.h>
+	<stdlib.h>
+	"Biblioteca.h"
+
+1504124307 /home/charly/CosasGit/tp_laboratorio_1/Esqueleto_TP/Biblioteca.h
 
