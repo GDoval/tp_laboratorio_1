@@ -4,7 +4,7 @@
 int main()
 {
     char seguir='s';
-    int opcion=0, flagDiv = 0, flagFac = 0;
+    int opcion=0,posi;
     float num1 = 0;
     float num2 = 0;
     float sum, res, mul, div;
@@ -53,7 +53,7 @@ int main()
                 if ( noEsCero == 'n' )
                 {
                     system("clear");
-                    printf("\nNo se puede dividir por cero, papafrita!\n");
+                    printf("\nNo se puede dividir por cero\n");
                     printf("\n\n");
 
                 }else
@@ -87,59 +87,45 @@ int main()
 
                 break;
             case 8:
+                posi = Posibilidades(num1, num2);
                 sum = Suma(num1,num2);
                 res = Resta(num1,num2);
                 mul = Multi(num1,num2);
-                noEsCero = NoEsCero(num2);
-                mayorQueCero = MayorCero(num1);
-                if ( noEsCero == 'n' )
-                {
-                    flagDiv = 1;
 
-                }else
+                switch(posi)
                 {
-                    div = Divi(num1,num2);
-                    flagDiv = 0;
+                    case 1:
 
-                }
-                if (mayorQueCero == 's')
-                {
-                    facto = Factorial(num1);
-                    flagFac = 0;
+                        div = Divi(num1,num2);
+                        facto = Factorial(num1);
+                        system("clear");
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nSu division es: %.3f \nEl factorial del operando A es: %lli\n", sum, res, mul, div, facto);
+                        printf("\n\n");
+                        break;
 
-                }else
-                {
-                    flagFac = 1;
-                }
-                if (flagDiv == 1 && flagFac == 1)
-                {
-                    system("clear");
-                    printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nNo puede realizarse el factorial de un numero negativo\n", sum, res, mul);
-                    printf("\n\n");
-                }else
-                {
-                    if (flagDiv == 0 && flagFac == 1)
-                    {
+                    case 2:
+
+                        facto = Factorial(num1);
+                        system("clear");
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nEl factorial del operando A es: %lli\n", sum, res, mul, facto);
+                        printf("\n\n");
+                        break;
+
+                    case 3:
+
+                        div = Divi(num1, num2);
                         system("clear");
                         printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nSu division es: %.3f \nNo puede realizarse el factorial de un numero negativo\n", sum, res, mul, div);
                         printf("\n\n");
-                    }else
-                    {
-                        if (flagDiv == 1 && flagFac == 0)
-                        {
-                            system("clear");
-                            printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nEl factorial del operando A es: %lli\n", sum, res, mul, facto);
-                            printf("\n\n");
-                        }else
-                        {
-                            if (flagDiv == 0 && flagFac == 0)
-                            {
-                                system("clear");
-                                printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nSu division es: %.3f \nEl factorial del operando A es: %lli\n", sum, res, mul, div, facto);
-                                printf("\n\n");
-                            }
-                        }
-                    }
+                        break;
+
+                    case 4:
+
+                        system("clear");
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nNo puede realizarse el factorial de un numero negativo\n", sum, res, mul);
+                        printf("\n\n");
+                        break;
+
                 }
 
                 break;
@@ -147,8 +133,6 @@ int main()
                 seguir = 'n';
                 break;
         }
-
-
 
     }
     return 0;

@@ -69,3 +69,39 @@ char MayorCero (int numero)
     return respuesta;
 
 }
+
+int Posibilidades(float numFac, float numDiv)
+{
+    int posibilidad;
+    char respuestaFac, respuestaDiv;
+    respuestaFac = MayorCero(numFac); // devuelve 's' si es mayor a cero, 'n' si es menor
+    respuestaDiv = NoEsCero(numDiv); // devuelve 's' si no es cero, 'n' si es cero
+
+    if (respuestaDiv == 's' && respuestaFac == 's') // 1 es que ambas operaciones son validas
+    {
+        posibilidad = 1;
+        return posibilidad;
+    }else
+    {
+        if (respuestaDiv != 's' && respuestaFac == 's') //2 es que la division sea invalida y el factorial valido
+        {
+            posibilidad = 2;
+            return posibilidad;
+        }else
+        {
+            if (respuestaDiv == 's' && respuestaFac != 's') //3 es que la division sea valida y el factorial invalido
+            {
+                posibilidad = 3;
+                return posibilidad;
+            }else
+            {
+                if (respuestaDiv != 's' && respuestaFac != 's') //4 es que ambas operaciones son invalidas
+                {
+                    posibilidad = 4;
+                    return posibilidad;
+                }
+            }
+        }
+    }
+
+}
