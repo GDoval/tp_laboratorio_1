@@ -82,12 +82,27 @@ char MayorCero (int numero);
 
 
 /**
-/brief La funcion evalua cuál de las 4 posibles combinaciones de true or false se cumple a partir de los datos pasados como parametros.
+/brief La funcion evalua cuál de las 6 posibles combinaciones de true or false se cumple a partir de los datos pasados como parametros.
 /param Recibe un dato de tipo float
 /param Recibe un dato de tipo float
-/return Devuelve un int con valor 1, 2, 3 ó 4.
+/return Devuelve un int con valor 1, 2, 3, 4, 5 ó 6.
 **/
 
 
 
 int Posibilidades(float numFac, float numDiv);
+
+
+
+
+
+
+
+/**
+/brief La funcion evalua si es posible realizar el factorial del numero pasado como parametro
+/param Recibe un dato de tipo float
+/return Devuelve un int con valor 1, 2 ó 3.
+**/
+
+
+int validarFacto(float numero);

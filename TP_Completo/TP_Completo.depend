@@ -1,13 +1,15 @@
 # depslib dependency file v1.0
-1504287161 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Completo/Biblioteca.c
+1504890478 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Completo/Biblioteca.c
 	<stdio.h>
 	<stdlib.h>
 	"Biblioteca.h"
+	<math.h>
 
-1504287083 /home/charly/CosasGit/tp_laboratorio_1/TP_Completo/Biblioteca.h
+1504890652 /home/charly/CosasGit/tp_laboratorio_1/TP_Completo/Biblioteca.h
 
-1504285427 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Completo/main.c
+1504890390 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Completo/main.c
 	<stdio.h>
 	<stdlib.h>
 	"Biblioteca.h"
+	<math.h>
 

@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Biblioteca.h"
+#include <math.h>
 int main()
 {
     char seguir='s';
-    int opcion=0,posi;
+    int opcion=0,posi, valiFacto;
     float num1 = 0;
     float num2 = 0;
     float sum, res, mul, div;
-    char noEsCero, mayorQueCero;
+    char noEsCero;
     long long int facto;
 
 
@@ -71,20 +72,25 @@ int main()
                 printf("\n\n");
                 break;
             case 7:
-                mayorQueCero = MayorCero(num1);
-                if (mayorQueCero == 's')
+                valiFacto = validarFacto(num1);
+                switch (valiFacto)
                 {
-                    facto = Factorial(num1);
-                    system("clear");
-                    printf("\nEl factorial de %.0f es %lli \n", num1, facto);
-                    printf("\n\n");
-                }else
-                {
-                    system("clear");
-                    printf("\nNo puede hacerse el factorial de un numero negativo. \n");
-                    printf("\n\n");
+                    case 1:
+                        facto = Factorial(num1);
+                        system("clear");
+                        printf("\nEl factorial de %.0f es %lli \n", num1, facto);
+                        printf("\n\n");
+                        break;
+                    case 2:
+                        system("clear");
+                        printf("\nNo puede hacerse el factorial de un numero con coma \n");
+                        printf("\n\n");
+                        break;
+                    case 3:
+                        system("clear");
+                        printf("\nNo puede hacerse el factorial de un numero negativo. \n");
+                        printf("\n\n");
                 }
-
                 break;
             case 8:
                 posi = Posibilidades(num1, num2);
@@ -105,9 +111,9 @@ int main()
 
                     case 2:
 
-                        facto = Factorial(num1);
+                        div = Divi(num1,num2);
                         system("clear");
-                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nEl factorial del operando A es: %lli\n", sum, res, mul, facto);
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nSu division es: %.3f \nNo puede realizarse el factorial de un numero con coma\n", sum, res, mul, div);
                         printf("\n\n");
                         break;
 
@@ -120,12 +126,23 @@ int main()
                         break;
 
                     case 4:
+                        facto = Factorial(num1);
+                        system("clear");
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nEl factorial del operando A es: %lli\n", sum, res, mul, facto);
+                        printf("\n\n");
+                        break;
 
+                    case 5:
+                        system("clear");
+                        printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nNo puede realizarse el factorial de un numero con coma\n", sum, res, mul);
+                        printf("\n\n");
+                        break;
+
+                    case 6:
                         system("clear");
                         printf("\nLa suma de los operandos es: %.3f\nSu resta es: %.3f\nSu multiplicacion es: %.3f\nNo puede dividirse por cero\nNo puede realizarse el factorial de un numero negativo\n", sum, res, mul);
                         printf("\n\n");
                         break;
-
                 }
 
                 break;
