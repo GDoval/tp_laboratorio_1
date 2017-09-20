@@ -29,9 +29,10 @@ void Ingreso (ePersona personita[], int tam) // Sin problemas hasta ahora
                 personita[validar].flag = 1;
             }else
             {
+                system("clear");
                 printf("\nNo hay mas lugar en el sistema.\n");
             }
-
+        printf("\n\n");
 
 }
 
@@ -71,8 +72,8 @@ void sacarEnter(char vec[]) // borra el enter que queda en la ultima posicion de
 void ordenarStrings(ePersona ordenar[], int filas) // El primer criterio de ordenamiento es el nombre, el segundo el DNI.
 {
 
-    int i, j;
-    ePersona temporal;
+    int i, j,d;
+    ePersona temporal, tempDni;
     for (i = 1; i < filas; i++)
     {
         temporal = ordenar[i];
@@ -82,15 +83,26 @@ void ordenarStrings(ePersona ordenar[], int filas) // El primer criterio de orde
             ordenar[j+1] = ordenar[j];
             j--;
         }
-        if (strcmp(temporal.nombre, ordenar[j]. nombre) == 0)
-        {
-            while(temporal.dni < ordenar[j].dni && j >= 0)
-            {
-                ordenar[j+1] = ordenar[j];
-                j--;
-            }
-        }
+
         ordenar[j+1] = temporal;
+    }
+    for (int f = 1; f < filas; f++)
+    {
+        tempDni = ordenar[f];
+        d = f-1;
+        while(strcmp(tempDni.nombre, ordenar[d].nombre) == 0 && d >=0)
+        {
+            if (tempDni.dni < ordenar[d].dni)
+            {
+                ordenar[d+1] = ordenar[d];
+            }else
+            {
+                break;
+            }
+
+            d--;
+        }
+        ordenar[d+1] = tempDni;
     }
 }
 

@@ -15,3 +15,19 @@
 	<string.h>
 	"funciones.h"
 
+1505932388 source:/home/charly/CosasGit/tp_laboratorio_1/TP2_Laboratorio/funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"funciones.h"
+
+1505771085 /home/charly/CosasGit/tp_laboratorio_1/TP2_Laboratorio/funciones.h
+
+1505929924 source:/home/charly/CosasGit/tp_laboratorio_1/TP2_Laboratorio/main.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"funciones.h"
+

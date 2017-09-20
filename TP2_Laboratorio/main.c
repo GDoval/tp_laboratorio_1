@@ -32,7 +32,6 @@ int main()
             case 1:
                 system("clear");
                 Ingreso(listaPersonas, TAM);
-                system("clear");
                 break;
             case 2:
                 system("clear");
