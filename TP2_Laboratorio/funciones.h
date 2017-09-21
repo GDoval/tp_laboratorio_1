@@ -94,3 +94,10 @@ int buscarVacio (ePersona[], int);
 
 /*------------------------------------------------------------------*/
 int sacarMayor(int, int, int);
+/**brief Devuelve el mayor de los numeros ingresados como parametro
+/*param recibe 3 enteros
+/*return retorna un entero
+**/
+
+
+
