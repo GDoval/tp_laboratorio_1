@@ -25,7 +25,7 @@ void Ingreso (ePersona personita[], int tam) // Sin problemas hasta ahora
                     validar= validaInt(personita[indice].edad,0,150);
                 }
                 printf("Ingrese DNI: ");
-                scanf("%lli",&personita[indice].dni);
+                scanf("%d",&personita[indice].dni);
                 validar = validaDni(personita[indice].dni);
                 while (validar != 0)
                 {
@@ -57,7 +57,7 @@ void mostrarPersonas(ePersona imprimir [], int tam)
             len = strlen(imprimir[i].nombre);
             x = 20 - len;
             y = x + len;
-            printf("\n%s%*d%*lli\n", imprimir[i].nombre,x, imprimir[i].edad,y, imprimir[i].dni);
+            printf("\n%s%*d%*d\n", imprimir[i].nombre,x, imprimir[i].edad,y, imprimir[i].dni);
         }
 
     }

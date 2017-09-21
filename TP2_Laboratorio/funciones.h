@@ -1,6 +1,6 @@
 typedef struct
 {
-    long long int dni;
+    int dni;
     int edad;
     int flag;
     char nombre[20];
