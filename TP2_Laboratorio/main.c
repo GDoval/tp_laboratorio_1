@@ -15,6 +15,7 @@ int main()
     for (int i = 0; i <TAM; i++)
     {
         listaPersonas[i].flag = 0;
+        listaPersonas[i].edad = 0;
     }
 
     while(seguir=='s')

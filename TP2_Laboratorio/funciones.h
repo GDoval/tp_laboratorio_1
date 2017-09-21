@@ -51,6 +51,18 @@ int validaInt (int, int, int);
 **/
 
 
+
+
+/*------------------------------------------------------------------*/
+
+int validaDni (int);
+
+/**brief Valida si el entero pasado como paramentro se encuentra en el rango deseado
+/*param recibe un entero a validar
+/*return retorna un 0 si el entero a validar está dentro del rango, o un -1 en caso contrario.
+**/
+
+
 /*------------------------------------------------------------------*/
 void borrarPersona (ePersona [], int, int);
 /**brief Realiza una baja lógica dentro del array que recibe como parámetro
@@ -76,3 +88,9 @@ int buscarVacio (ePersona[], int);
 /*param recibe un entero con la cantidad de elementos del array
 /*return retorna el  índice donde se cumplie la condicion, o un -1 si no se encontró un índice cargado en 0
 **/
+
+
+
+
+/*------------------------------------------------------------------*/
+int sacarMayor(int, int, int);

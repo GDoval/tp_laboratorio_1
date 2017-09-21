@@ -7,26 +7,33 @@
 void Ingreso (ePersona personita[], int tam) // Sin problemas hasta ahora
 {
 
-        int validar, validarEdad;
-        validar = buscarVacio(personita, tam);
-         if (validar != -1)
+        int indice, validar;
+        indice = buscarVacio(personita, tam);
+         if (indice != -1)
             {
                 printf("Ingrese Nombre: ");
                 setbuf(stdin, NULL);
-                fgets(personita[validar].nombre, 20, stdin);
-                sacarEnter(personita[validar].nombre);
+                fgets(personita[indice].nombre, 20, stdin);
+                sacarEnter(personita[indice].nombre);
                 printf("Ingrese edad: ");
-                scanf("%d", &personita[validar].edad);
-                validarEdad = validaInt(personita[validar].edad,0,150);
-                while (validarEdad == -1)
+                scanf("%d", &personita[indice].edad);
+                validar= validaInt(personita[indice].edad,0,150);
+                while (validar !=0)
                 {
                     printf("Error. Por favor ingrese una edad mayor a cero y menor a 150: ");
-                    scanf("%d", &personita[validar].edad);
-                    validarEdad = validaInt(personita[validar].edad,0,150);
+                    scanf("%d", &personita[indice].edad);
+                    validar= validaInt(personita[indice].edad,0,150);
                 }
                 printf("Ingrese DNI: ");
-                scanf("%lli",&personita[validar].dni);
-                personita[validar].flag = 1;
+                scanf("%lli",&personita[indice].dni);
+                validar = validaDni(personita[indice].dni);
+                while (validar != 0)
+                {
+                    printf("Error. Por favor ingrese un DNI mayor que cero: ");
+                    scanf("%d", &personita[indice].dni);
+                    validar = validaDni(personita[indice].dni);
+                }
+                personita[indice].flag = 1;
             }else
             {
                 system("clear");
@@ -159,28 +166,61 @@ void borrarPersona (ePersona borrado[], int dni, int tam)
 
 void graficoEdades (ePersona lista[], int tam)
 {
+
+    int cont = 0, flag = 0;
+    int menor, mayor;
+    int contMin = 0, contMed = 0, contMax = 0;
     for (int i = 0; i < tam; i++)
     {
-        if (lista[i].flag !=0)
+        if (lista[i].flag == 1)
         {
-             if (lista[i].edad <= 18)
+            cont++;
+        }
+    }
+    for (int i = 0; i < cont; i++)
+    {
+        if (lista[i].edad < 18)
         {
-            printf("\n*");
+            contMin++;
         }else
+        {
+            if(lista[i].edad >= 18 && lista[i].edad <= 35)
             {
-                if (lista[i].edad > 35)
+                contMed++;
+            }else
                 {
-                    printf("\n\t\t*");
-                }else
-                {
-                    printf("\n\t*");
+                    contMax++;
                 }
+        }
+    }
+    mayor = sacarMayor(contMin, contMed, contMax);
+    for (int i = mayor; i > 0; i--)
+    {
+        if (contMin >= mayor)
+        {
+            printf("*");
+        }
+        if (contMed >= mayor)
+        {
+            flag = 1;
+            printf("\t*");
+        }
+        if (contMax >= mayor)
+        {
+            if(flag == 0)
+            {
+                printf("\t\t*");
+            }else
+            {
+                printf("\t*");
             }
         }
-
+        printf("\n");
+        mayor--;
     }
-    printf("\n<18\t19-35\t>35\n");
+    printf("<18\t19-35\t>35\n");
 }
+
 
 
 
@@ -200,3 +240,32 @@ int buscarVacio (ePersona listado[], int tam)
     return resultado;
 }
 
+int validaDni (int dni)
+{
+    int resultado = 0;
+    if (dni <= 0)
+        resultado = -1;
+    return resultado;
+}
+
+
+
+
+int sacarMayor(int num1, int num2, int num3)
+{
+    int mayor;
+    if (num1 >= num2 && num1 >= num3)
+    {
+        mayor = num1;
+    }else
+    {
+        if(num2 >= num1 && num2 >= num3 )
+        {
+            mayor = num2;
+        }else
+        {
+            mayor = num3;
+        }
+    }
+    return mayor;
+}
