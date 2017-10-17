@@ -53,7 +53,7 @@ void imprimirMovies ()
     miArchivo = fopen("prueba.bin", "rb");
     while (!feof(miArchivo))
     {
-        if ((i = fread(&pelis, sizeof(eMovie), i, miArchivo)) != 0)
+        if ((i = fread(&pelis, sizeof(eMovie), 1, miArchivo)) != 0)
             printf("\n%s -- %s -- %s\n", pelis.titulo, pelis.genero, pelis.descripcion);
     }
     fclose(miArchivo);
@@ -72,43 +72,46 @@ void modificarPelicula ()
     FILE* miArchivo;
     miArchivo = fopen("prueba.bin", "rb");
 
-    while ((i = fgetc(miArchivo)) != EOF)
+    while (!feof(miArchivo))
     {
-        fread(&peli, sizeof(eMovie), 1, miArchivo);
-        p++;
-        if ((strcmp(titulo, peli.titulo) == 0))
+        i = fread(&peli, sizeof(eMovie), 1, miArchivo);
+        if (i != 0)
         {
-            j = fseek(miArchivo, p, SEEK_SET);
-            if (j == 0)
+            p++;
+            if ((strcmp(titulo, peli.titulo) == 0))
             {
-                printf("Ingrese el nombre de la pelicula: ");
-                setbuf(stdin, NULL);
-                fgets(peli.titulo, 51, stdin);
-                sacarEnter(peli.titulo);
-                printf("\nIngrese el genero de la pelicula: ");
-                setbuf(stdin, NULL);
-                fgets(peli.genero, 21, stdin);
-                sacarEnter(peli.genero);
-                printf("\nIngrese la duracion en minutos: ");
-                scanf("%d", &peli.duracion);
-                printf("\nIngrese la descripcion de la pelicula: ");
-                setbuf(stdin, NULL);
-                fgets(peli.descripcion, 51, stdin);
-                sacarEnter(peli.descripcion);
-                printf("\nIngrese el puntaje de la pelicula: ");
-                scanf("%d", &peli.puntaje);
-                printf("\nIngrese un link de imagen para la portada: ");
-                setbuf(stdin, NULL);
-                fgets(peli.linkImagen, 51, stdin);
-                sacarEnter(peli.linkImagen);
-                flag = 0;
-                break;
-            }
+                j = fseek(miArchivo, p, SEEK_SET);
+                if (j == 0)
+                {
+                    printf("Ingrese el nombre de la pelicula: ");
+                    setbuf(stdin, NULL);
+                    fgets(peli.titulo, 51, stdin);
+                    sacarEnter(peli.titulo);
+                    printf("\nIngrese el genero de la pelicula: ");
+                    setbuf(stdin, NULL);
+                    fgets(peli.genero, 21, stdin);
+                    sacarEnter(peli.genero);
+                    printf("\nIngrese la duracion en minutos: ");
+                    scanf("%d", &peli.duracion);
+                    printf("\nIngrese la descripcion de la pelicula: ");
+                    setbuf(stdin, NULL);
+                    fgets(peli.descripcion, 51, stdin);
+                    sacarEnter(peli.descripcion);
+                    printf("\nIngrese el puntaje de la pelicula: ");
+                    scanf("%d", &peli.puntaje);
+                    printf("\nIngrese un link de imagen para la portada: ");
+                    setbuf(stdin, NULL);
+                    fgets(peli.linkImagen, 51, stdin);
+                    sacarEnter(peli.linkImagen);
+                    flag = 0;
+                    break;
+                }
 
-        }
-        else
-        {
-            flag = 1;
+            }
+            else
+            {
+                flag = 1;
+            }
         }
     }
     fclose(miArchivo);
