@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1508270396 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Laboratorio_3/funciones.c
+1508276639 source:/home/charly/CosasGit/tp_laboratorio_1/TP_Laboratorio_3/funciones.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
