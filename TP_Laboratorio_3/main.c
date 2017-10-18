@@ -13,8 +13,9 @@ int main()
     {
         printf("1- Agregar pelicula\n");
         printf("2- Borrar pelicula\n");
-        printf("3- Generar pagina web\n");
-        printf("4- Salir\n");
+        printf("3- Modificar pelicula\n");
+        printf("4- Generar pagina web\n");
+        printf("5- Salir\n");
 
         scanf("%d",&opcion);
 
@@ -33,7 +34,14 @@ int main()
                 modificarPelicula();
                break;
             case 4:
+                system("clear");
+                borrarPelicula();
+                break;
+            case 5:
                 seguir = 'n';
+                break;
+            default:
+                printf("\nOpcion incorrecta\n");
                 break;
         }
     }

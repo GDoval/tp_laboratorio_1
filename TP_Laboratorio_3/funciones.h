@@ -7,6 +7,7 @@ typedef struct{
     char descripcion[50];
     int  puntaje;
     char linkImagen[50];
+    int estado;
 }eMovie;
 
 
@@ -22,13 +23,19 @@ int agregarPelicula(eMovie movie);
  *  @param movie la estructura a ser eliminada al archivo
  *  @return retorna 1 o 0 de acuerdo a si pudo eliminar la pelicula o no
  */
-int borrarPelicula(eMovie movie);
+void borrarPelicula();
 
 /**
  *  Genera un archivo html a partir de las peliculas cargadas en el archivo binario.
  *  @param lista la lista de peliculas a ser agregadas en el archivo.
  *  @param nombre el nombre para el archivo.
  */
+
+void modificarPelicula ();
+
+
+
+
 void generarPagina(eMovie lista[], char nombre[]);
 
 
