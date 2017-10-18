@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "funciones.h"
 
 int agregarPelicula(eMovie movie)
 {
     FILE* miArchivo;
-    int resultado = 1;
+    int resultado = 1, validar;
 
     if ((miArchivo = fopen("prueba.bin", "rb+")) == NULL)
         if((miArchivo = fopen("prueba.bin", "wb+")) == NULL)
@@ -21,18 +22,58 @@ int agregarPelicula(eMovie movie)
     setbuf(stdin, NULL);
     fgets(movie.titulo, 51, stdin);
     sacarEnter(movie.titulo);
+    validar = validaString(movie.titulo);
+    while (validar != -1)
+    {
+        printf("\nError! Reingrese: ");
+        setbuf(stdin, NULL);
+        fgets(movie.titulo, 51, stdin);
+        sacarEnter(movie.titulo);
+        validar = validaString(movie.titulo);
+    }
+
     printf("\nIngrese el genero de la pelicula: ");
     setbuf(stdin, NULL);
     fgets(movie.genero, 21, stdin);
     sacarEnter(movie.genero);
+    validar = validaString(movie.genero);
+    while (validar != -1)
+    {
+        printf("\nError! Reingrese: ");
+        setbuf(stdin, NULL);
+        fgets(movie.genero, 51, stdin);
+        sacarEnter(movie.genero);
+        validar = validaString(movie.genero);
+    }
+
     printf("\nIngrese la duracion en minutos: ");
     scanf("%d", &movie.duracion);
+
+
     printf("\nIngrese la descripcion de la pelicula: ");
     setbuf(stdin, NULL);
     fgets(movie.descripcion, 51, stdin);
     sacarEnter(movie.descripcion);
+    validar = validaString(movie.descripcion);
+    while (validar != -1)
+    {
+        printf("\nError! Reingrese: ");
+        setbuf(stdin, NULL);
+        fgets(movie.descripcion, 51, stdin);
+        sacarEnter(movie.descripcion);
+        validar = validaString(movie.descripcion);
+    }
+
     printf("\nIngrese el puntaje de la pelicula: ");
     scanf("%d", &movie.puntaje);
+    validar = validaInt(movie.puntaje, 0, 10);
+    while (validar == -1)
+    {
+        printf("\nError! Reingrese un numero entre 0 y 10: ");
+        scanf("%d", &movie.puntaje);
+        validar = validaInt(movie.puntaje, 0, 10);
+    }
+
     printf("\nIngrese un link de imagen para la portada: ");
     setbuf(stdin, NULL);
     fgets(movie.linkImagen, 51, stdin);
@@ -170,7 +211,8 @@ void borrarPelicula()
     if (flag  == 1)
     {
         printf("\nPelicula no encontrada\n");
-    }else
+    }
+    else
     {
         fseek(miArchivo,(long) (-1)*sizeof(eMovie), SEEK_CUR);
         fwrite(&peli, sizeof(eMovie), 1, miArchivo);
@@ -183,7 +225,45 @@ void borrarPelicula()
 
 void sacarEnter(char vec[]) // borra el enter que queda en la ultima posicion del string cuando se usa fgets().
 {
-        int cant;
-        cant = strlen(vec);
-        vec[cant-1] = '\0';
+    int cant;
+    cant = strlen(vec);
+    vec[cant-1] = '\0';
+}
+
+
+
+int validaString (char cadena[]) //Recibe una cadena, y valida que no se hayan ingresado otra cosa que no sean letras.
+{
+                                // Devuelve un 0 si la cadena no fue validada, un -1 si es una cadena valida.
+    char letra;
+    int respuesta, len;
+    letra = cadena[0];
+    len = strlen(cadena);
+    for (int i = 0; i < len; i++)
+    {
+        letra = cadena[i];
+        if (!isalpha(letra))
+        {
+            respuesta = 0;
+            break;
+        }
+        else
+        {
+            respuesta = -1;
+        }
+    }
+
+    return respuesta;
+}
+
+
+
+int validaInt (int input, int lowLimit, int hiLimit)
+{
+    int resultado = 0;
+    if (input < lowLimit || input > hiLimit)
+    {
+        resultado = -1;
+    }
+    return resultado;
 }

@@ -33,7 +33,9 @@ void borrarPelicula();
 
 void modificarPelicula ();
 
+int validaString (char[]);
 
+int validaInt (int,int, int);
 
 
 void generarPagina(eMovie lista[], char nombre[]);
