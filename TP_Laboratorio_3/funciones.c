@@ -16,54 +16,20 @@ int agregarPelicula(eMovie movie)
             resultado = 0;
             return resultado;
         }
-
-
     printf("Ingrese el nombre de la pelicula: ");
     setbuf(stdin, NULL);
     fgets(movie.titulo, 51, stdin);
     sacarEnter(movie.titulo);
-    validar = validaString(movie.titulo);
-    while (validar != -1)
-    {
-        printf("\nError! Reingrese: ");
-        setbuf(stdin, NULL);
-        fgets(movie.titulo, 51, stdin);
-        sacarEnter(movie.titulo);
-        validar = validaString(movie.titulo);
-    }
-
     printf("\nIngrese el genero de la pelicula: ");
     setbuf(stdin, NULL);
     fgets(movie.genero, 21, stdin);
     sacarEnter(movie.genero);
-    validar = validaString(movie.genero);
-    while (validar != -1)
-    {
-        printf("\nError! Reingrese: ");
-        setbuf(stdin, NULL);
-        fgets(movie.genero, 51, stdin);
-        sacarEnter(movie.genero);
-        validar = validaString(movie.genero);
-    }
-
     printf("\nIngrese la duracion en minutos: ");
     scanf("%d", &movie.duracion);
-
-
     printf("\nIngrese la descripcion de la pelicula: ");
     setbuf(stdin, NULL);
-    fgets(movie.descripcion, 51, stdin);
+    fgets(movie.descripcion, 1001, stdin);
     sacarEnter(movie.descripcion);
-    validar = validaString(movie.descripcion);
-    while (validar != -1)
-    {
-        printf("\nError! Reingrese: ");
-        setbuf(stdin, NULL);
-        fgets(movie.descripcion, 51, stdin);
-        sacarEnter(movie.descripcion);
-        validar = validaString(movie.descripcion);
-    }
-
     printf("\nIngrese el puntaje de la pelicula: ");
     scanf("%d", &movie.puntaje);
     validar = validaInt(movie.puntaje, 0, 10);
@@ -76,7 +42,7 @@ int agregarPelicula(eMovie movie)
 
     printf("\nIngrese un link de imagen para la portada: ");
     setbuf(stdin, NULL);
-    fgets(movie.linkImagen, 51, stdin);
+    fgets(movie.linkImagen, 500, stdin);
     sacarEnter(movie.linkImagen);
     movie.estado = 1;
     fseek(miArchivo, 0L, SEEK_END);
@@ -86,8 +52,6 @@ int agregarPelicula(eMovie movie)
     return resultado;
 
 }
-
-
 
 void imprimirMovies ()
 {
@@ -189,7 +153,7 @@ void borrarPelicula()
         printf("\nError al abrir el archivo!");
         exit(1);
     }
-
+    rewind(miArchivo);
     while (!feof(miArchivo))
     {
         i = fread(&peli, sizeof(eMovie), 1, miArchivo);
@@ -231,33 +195,6 @@ void sacarEnter(char vec[]) // borra el enter que queda en la ultima posicion de
 }
 
 
-
-int validaString (char cadena[]) //Recibe una cadena, y valida que no se hayan ingresado otra cosa que no sean letras.
-{
-                                // Devuelve un 0 si la cadena no fue validada, un -1 si es una cadena valida.
-    char letra;
-    int respuesta, len;
-    letra = cadena[0];
-    len = strlen(cadena);
-    for (int i = 0; i < len; i++)
-    {
-        letra = cadena[i];
-        if (!isalpha(letra))
-        {
-            respuesta = 0;
-            break;
-        }
-        else
-        {
-            respuesta = -1;
-        }
-    }
-
-    return respuesta;
-}
-
-
-
 int validaInt (int input, int lowLimit, int hiLimit)
 {
     int resultado = 0;
@@ -266,4 +203,59 @@ int validaInt (int input, int lowLimit, int hiLimit)
         resultado = -1;
     }
     return resultado;
+}
+
+
+void generarHtml()
+{
+    FILE* archivoBin;
+    FILE* archivoHtml;
+    eMovie pelis;
+    int cont = 0, i;
+    archivoBin = fopen("prueba.bin", "rb");
+    rewind(archivoBin);
+    while (!feof(archivoBin))
+    {
+        if ((i = fread(&pelis, sizeof(eMovie), 1, archivoBin)) != 0)
+        {
+            if(pelis.estado == 1)
+                cont++;
+        }
+    }
+    rewind(archivoBin);
+    eMovie array[cont];
+    eMovie* puntero;
+    puntero = &array;
+    for (int j = 0; j < cont; j++)
+    {
+        if(pelis.estado != 0)
+            fread(puntero+j, sizeof(eMovie), 1, archivoBin);
+    }
+    fclose(archivoBin);
+
+    if((archivoHtml = fopen("pagina.html", "wb+")) == NULL)
+    {
+          printf("No se pudo abrir el archivo\n");
+            exit(1);
+    }
+
+    fseek(archivoHtml, 0L, SEEK_SET);
+    fprintf(archivoHtml, "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<meta charset='utf-8'>\n<meta http-equiv='X-UA-Compatible' content='IE=edge'>\n<meta name='viewport' content='width=device-width, initial-scale=1'>\n<title>Lista peliculas</title>\n<link href='css/bootstrap.min.css' rel='stylesheet'>\n<link href='css/custom.css' rel='stylesheet'>\n</head>\n<body>\n<div class='container'>\n<div class='row'>\n");
+    for (int i = 0; i < cont; i++)
+    {
+            if ((puntero+i)->estado == 1)
+            {
+                fseek(archivoHtml, 0L, SEEK_END);
+                fprintf(archivoHtml, "<article class='col-md-4 article-intro'>\n<a href='#'>\n<img class='img-responsive img-rounded' src='%s'alt=''>\n</a>\n", (puntero+i)->linkImagen);
+                fseek(archivoHtml, 0L, SEEK_END);
+                fprintf(archivoHtml,"<h3>\n<a href='#'>%s</a>\n</h3>\n", (puntero+i)->titulo);
+                fseek(archivoHtml, 0L, SEEK_END);
+                fprintf(archivoHtml, "<ul>\n<li>Género:%s</li>\n<li>Puntaje:%d</li>\n<li>Duración:%d</li>\n</ul>\n", (puntero+i)->genero, (puntero+i)->puntaje, (puntero+i)->duracion);
+                fseek(archivoHtml, 0L, SEEK_END);
+                fprintf(archivoHtml, "<p>%s</p>\n</article>\n", (puntero+i)->descripcion);
+            }
+    }
+    fseek(archivoHtml, 0L, SEEK_END);
+    fprintf(archivoHtml, "</div>\n</div>\n<script src='js/jquery-1.11.3.min.js'>\n</script>\n<script src='js/bootstrap.min.js'>\n</script>\n<script src='js/ie10-viewport-bug-workaround.js'>\n</script>\n<script src='js/holder.min.js'>\n</script>\n</body>\n</html>\n");
+    fclose(archivoHtml);
 }

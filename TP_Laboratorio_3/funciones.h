@@ -4,9 +4,9 @@ typedef struct{
     char titulo[50];
     char genero[20];
     int  duracion;
-    char descripcion[50];
+    char descripcion[1000];
     int  puntaje;
-    char linkImagen[50];
+    char linkImagen[500];
     int estado;
 }eMovie;
 

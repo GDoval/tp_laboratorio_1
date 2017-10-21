@@ -15,7 +15,8 @@ int main()
         printf("2- Borrar pelicula\n");
         printf("3- Modificar pelicula\n");
         printf("4- Generar pagina web\n");
-        printf("5- Salir\n");
+        printf("5- Imprimir peliculas\n");
+        printf("6- Salir\n");
 
         scanf("%d",&opcion);
 
@@ -27,17 +28,20 @@ int main()
                 break;
             case 2:
                 system("clear");
-                imprimirMovies();
+                borrarPelicula();
                 break;
             case 3:
                 system("clear");
                 modificarPelicula();
                break;
             case 4:
-                system("clear");
-                borrarPelicula();
+                generarHtml();
                 break;
             case 5:
+                system("clear");
+                imprimirMovies();
+                break;
+            case 6:
                 seguir = 'n';
                 break;
             default:
