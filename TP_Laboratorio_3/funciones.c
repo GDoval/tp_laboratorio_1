@@ -4,17 +4,16 @@
 #include <ctype.h>
 #include "funciones.h"
 
-int agregarPelicula(eMovie movie)
+void agregarPelicula(eMovie movie)
 {
     FILE* miArchivo;
-    int resultado = 1, validar;
+    int validar;
 
     if ((miArchivo = fopen("prueba.bin", "rb+")) == NULL)
         if((miArchivo = fopen("prueba.bin", "wb+")) == NULL)
         {
             printf("\nNo se pudo abrir el archivo\n");
-            resultado = 0;
-            return resultado;
+            exit(1);
         }
     printf("Ingrese el nombre de la pelicula: ");
     setbuf(stdin, NULL);
@@ -49,7 +48,6 @@ int agregarPelicula(eMovie movie)
     setbuf(stdin, NULL);
     fwrite(&movie, sizeof(eMovie), 1, miArchivo);
     fclose(miArchivo);
-    return resultado;
 
 }
 
@@ -140,7 +138,7 @@ void modificarPelicula ()
 
 void borrarPelicula()
 {
-    eMovie peli;
+    eMovie pelis;
     int i,flag;
     char titulo[50];
     printf("\nIngrese el titulo de la pelicula a eliminar: ");
@@ -156,12 +154,12 @@ void borrarPelicula()
     rewind(miArchivo);
     while (!feof(miArchivo))
     {
-        i = fread(&peli, sizeof(eMovie), 1, miArchivo);
+        i = fread(&pelis, sizeof(eMovie), 1, miArchivo);
         if (i != 0)
         {
-            if ((strcmp(titulo, peli.titulo) == 0))
+            if ((strcmp(titulo, pelis.titulo) == 0))
             {
-                peli.estado = 0;
+                pelis.estado = 0;
                 flag = 0;
                 break;
             }
@@ -175,14 +173,13 @@ void borrarPelicula()
     if (flag  == 1)
     {
         printf("\nPelicula no encontrada\n");
-    }
-    else
+    }else
     {
+        setbuf(stdin, NULL);
         fseek(miArchivo,(long) (-1)*sizeof(eMovie), SEEK_CUR);
-        fwrite(&peli, sizeof(eMovie), 1, miArchivo);
+        fwrite(&pelis, sizeof(eMovie), 1, miArchivo);
         fclose(miArchivo);
     }
-
 
 }
 
@@ -218,8 +215,7 @@ void generarHtml()
     {
         if ((i = fread(&pelis, sizeof(eMovie), 1, archivoBin)) != 0)
         {
-            if(pelis.estado == 1)
-                cont++;
+            cont++;
         }
     }
     rewind(archivoBin);
@@ -228,32 +224,33 @@ void generarHtml()
     puntero = &array;
     for (int j = 0; j < cont; j++)
     {
-        if(pelis.estado != 0)
-            fread(puntero+j, sizeof(eMovie), 1, archivoBin);
+        fread(puntero+j, sizeof(eMovie), 1, archivoBin);
     }
     fclose(archivoBin);
 
     if((archivoHtml = fopen("pagina.html", "wb+")) == NULL)
     {
-          printf("No se pudo abrir el archivo\n");
-            exit(1);
+        printf("No se pudo abrir el archivo\n");
+        exit(1);
     }
 
     fseek(archivoHtml, 0L, SEEK_SET);
     fprintf(archivoHtml, "<!DOCTYPE html>\n<html lang='en'>\n<head>\n<meta charset='utf-8'>\n<meta http-equiv='X-UA-Compatible' content='IE=edge'>\n<meta name='viewport' content='width=device-width, initial-scale=1'>\n<title>Lista peliculas</title>\n<link href='css/bootstrap.min.css' rel='stylesheet'>\n<link href='css/custom.css' rel='stylesheet'>\n</head>\n<body>\n<div class='container'>\n<div class='row'>\n");
     for (int i = 0; i < cont; i++)
     {
-            if ((puntero+i)->estado == 1)
-            {
-                fseek(archivoHtml, 0L, SEEK_END);
-                fprintf(archivoHtml, "<article class='col-md-4 article-intro'>\n<a href='#'>\n<img class='img-responsive img-rounded' src='%s'alt=''>\n</a>\n", (puntero+i)->linkImagen);
-                fseek(archivoHtml, 0L, SEEK_END);
-                fprintf(archivoHtml,"<h3>\n<a href='#'>%s</a>\n</h3>\n", (puntero+i)->titulo);
-                fseek(archivoHtml, 0L, SEEK_END);
-                fprintf(archivoHtml, "<ul>\n<li>Género:%s</li>\n<li>Puntaje:%d</li>\n<li>Duración:%d</li>\n</ul>\n", (puntero+i)->genero, (puntero+i)->puntaje, (puntero+i)->duracion);
-                fseek(archivoHtml, 0L, SEEK_END);
-                fprintf(archivoHtml, "<p>%s</p>\n</article>\n", (puntero+i)->descripcion);
-            }
+
+        if ((puntero+i)->estado != 0)
+        {
+            fseek(archivoHtml, 0L, SEEK_END);
+            fprintf(archivoHtml, "<article class='col-md-4 article-intro'>\n<a href='#'>\n<img class='img-responsive img-rounded' src='%s'alt=''>\n</a>\n", (puntero+i)->linkImagen);
+            fseek(archivoHtml, 0L, SEEK_END);
+            fprintf(archivoHtml,"<h3>\n<a href='#'>%s</a>\n</h3>\n", (puntero+i)->titulo);
+            fseek(archivoHtml, 0L, SEEK_END);
+            fprintf(archivoHtml, "<ul>\n<li>Género:%s</li>\n<li>Puntaje:%d</li>\n<li>Duración:%d</li>\n</ul>\n", (puntero+i)->genero, (puntero+i)->puntaje, (puntero+i)->duracion);
+            fseek(archivoHtml, 0L, SEEK_END);
+            fprintf(archivoHtml, "<p>%s</p>\n</article>\n", (puntero+i)->descripcion);
+        }
+
     }
     fseek(archivoHtml, 0L, SEEK_END);
     fprintf(archivoHtml, "</div>\n</div>\n<script src='js/jquery-1.11.3.min.js'>\n</script>\n<script src='js/bootstrap.min.js'>\n</script>\n<script src='js/ie10-viewport-bug-workaround.js'>\n</script>\n<script src='js/holder.min.js'>\n</script>\n</body>\n</html>\n");

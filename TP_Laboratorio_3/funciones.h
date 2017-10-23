@@ -10,35 +10,57 @@ typedef struct{
     int estado;
 }eMovie;
 
-
+/*------------------------------------------------------------------*/
 /**
  *  Agrega una pelicula al archivo binario
  *  @param movie la estructura a ser agregada al archivo
- *  @return retorna 1 o 0 de acuerdo a si pudo agregar la pelicula o no
+ *
  */
-int agregarPelicula(eMovie movie);
+void agregarPelicula(eMovie);
+
+/*------------------------------------------------------------------*/
 
 /**
- *  Borra una pelicula del archivo binario
- *  @param movie la estructura a ser eliminada al archivo
- *  @return retorna 1 o 0 de acuerdo a si pudo eliminar la pelicula o no
+ /* brief Borra una pelicula del archivo binario
  */
 void borrarPelicula();
 
+/*------------------------------------------------------------------*/
 /**
- *  Genera un archivo html a partir de las peliculas cargadas en el archivo binario.
- *  @param lista la lista de peliculas a ser agregadas en el archivo.
- *  @param nombre el nombre para el archivo.
- */
+ /*Brief Modifica la informacion de una pelicula dentro del archivo binario
+ **/
 
 void modificarPelicula ();
 
+/*------------------------------------------------------------------*/
+/**brief Valida que la cadena que se pasa como parametro contenga solo letras
+/*param recibe un array del tipo estructura
+/*return retorna -1 si la cadena es valida, 0 en caso contrario.
+**/
 int validaString (char[]);
+
+/*------------------------------------------------------------------*/
+/**brief Valida si el entero pasado como paramentro se encuentra en el rango deseado
+/*param recibe un entero a validar
+/*param recibe un entero como rango minimo
+/*param recibe un entero como rango maximo
+/*return retorna un -1 si el entero a validar está dentro del rango, o un 0 en caso contrario.
+**/
 
 int validaInt (int,int, int);
 
+/*------------------------------------------------------------------*/
+/**
+ /*Brief  Genera un archivo html a partir de las peliculas cargadas en el archivo binario.
+ **/
 
-void generarPagina(eMovie lista[], char nombre[]);
 
+void generarHtml()
+
+/*------------------------------------------------------------------*/
+
+/**brief Reemplaza el enter que queda al final del string al leerlo con la funcion fgets() por un '\0'
+/*param recibe un array de caracteres
+**/
 
 void sacarEnter(char[]);
