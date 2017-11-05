@@ -18,17 +18,14 @@ int main()
     int r;
     miArchivo = fopen("data.csv", "r");
     r = parseArchivo(miArchivo, lista);
-    persona = lista->pElements[15];
+    persona = lista->pop(lista,0);
     printf("\n%s\n", persona->nombre);
-    persona = lista->pElements[5];
-    printf("\n\nSize: %d\n", lista->size);
-    printf("%s", persona->nombre);
-    lista->remove(lista, 5);
-    persona = lista->pElements[5];
-    printf("\n%s\n", persona->nombre);
-    printf("\n\nSize: %d\n", lista->size);
-    persona = lista->pElements[14];
-    printf("\n%s\n", persona->nombre);
+    ePersona* otro = lista->get(lista, 0);
+    printf("\n\n%s", otro->nombre);
+    /*persona = lista->pop(lista, 1);
+    ePersona* otro = lista->get(lista, 1);
+    printf("\n\n%s", otro->nombre);
+    printf("\n\n%s", persona->nombre);*/
     free(lista);
     return 0;
 }

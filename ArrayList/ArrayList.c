@@ -97,7 +97,7 @@ int al_contains(ArrayList* pList, void* pElement) //Funciona. Se le pasan dos pu
     return 0;
 }
 
-int al_set(ArrayList* pList, int index,void* pElement)
+int al_set(ArrayList* pList, int index,void* pElement) // ¿Se duplica con la funcion al_push ()?
 {
     if (pList == NULL || pElement == NULL)
         return -1;
@@ -120,13 +120,12 @@ int al_set(ArrayList* pList, int index,void* pElement)
 }
 
 
-int al_remove(ArrayList* pList,int index) //Funciona. Se hace un free() del puntero a eliminar, despues se lee el array de punteros del ArrayList
+int al_remove(ArrayList* pList,int index) //Funciona. Se  lee el array de punteros del ArrayList
 {                                         // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
     if (pList == NULL)                    // de control que no se asocia a ningun ciclo repetitivo, para que sea el indice del nuevo array, mientras que
         return -1;                        // la variable de control del for() se usa como indice del viejo array para poder descartar el puntero que se
-    void** auxArray;                      // elimina. Finalmente se hace un free() del viejo array de punteros y se lo reemplaza con la direccion de memoria
-    int f = 0;                            // del nuevo, y se disminuye en 1 el tamaño del size.
-    free(pList->pElements[index]);
+    void** auxArray;                      // elimina, y se disminuye en 1 el tamaño del size.
+    int f = 0;
     auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
 
     if (auxArray != NULL)
@@ -139,7 +138,6 @@ int al_remove(ArrayList* pList,int index) //Funciona. Se hace un free() del punt
                 f++;
             }
         }
-        free(pList->pElements);
         pList->size--;
         pList->pElements = auxArray;
 
@@ -147,25 +145,106 @@ int al_remove(ArrayList* pList,int index) //Funciona. Se hace un free() del punt
     return 0;
 }
 
+int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer un free() solo libera el primer indice del array
+{
+    if (pList == NULL)
+        return -1;
+    pList->pElements = NULL;
+    /*while(i < pList->size)
+    {
+        pList->pElements[i] = NULL;
+        i++;
+    }*/
+
+    return 0;
+}
+
+int al_push(ArrayList* pList, int index, void* pElement)
+ {
+    if (pList == NULL || pElement == NULL)
+        return -1;
+    int auxTam = pList->size;
+    if (index < pList->size && index >= 0)
+    {
+        while (auxTam >= index)
+        {
+            pList->pElements[auxTam+1] = pList->pElements[auxTam];
+            auxTam--;
+        }
+        pList->pElements[index] = pElement;
+        pList->size++;
+
+    }
+    else
+    {
+        return -1;
+    }
+ }
 
 
-void* al_get(ArrayList* pList, int index) {}
+ int al_indexOf(ArrayList* pList, void* pElement)
+ {
+    if (pList == NULL)
+        return -1;
+    for (int i = 0; i < pList->size; i++)
+    {
+        if (pList->pElements[i] == pElement)
+            return i;
+    }
+    return 0;
+ }
+
+
+int al_isEmpty(ArrayList* pList)
+{
+    if (pList == NULL)
+        return -1;
+    if (pList->size > 0)
+        return 1;
+    return 0;
+}
+
+void* al_get(ArrayList* pList, int index)
+{
+    if (pList == NULL)
+        return NULL;
+    void* aux;
+    if (index >= 0 && index < pList->size)
+    {
+        aux = pList->pElements[index];
+        return aux;
+    }else
+    {
+        return NULL;
+    }
+}
+
+void* al_pop(ArrayList* pList,int index)
+{
+    if (pList == NULL)
+        return NULL;
+    void* aux;
+     if (index >= 0 && index < pList->size)
+     {
+        aux = pList->pElements[index];
+        pList->remove(pList, index);
+        return aux;
+     }else
+     {
+        return NULL;
+     }
+}
+
+
+
+
+
 
 int al_deleteArrayList(ArrayList* pList) {}
 
 int al_containsAll(ArrayList* pList,ArrayList* pList2) {}
 
-int al_clear(ArrayList* pList) {}
-
 ArrayList* al_clone(ArrayList* pList) {}
-
-int al_push(ArrayList* pList, int index, void* pElement) {}
-
-int al_indexOf(ArrayList* pList, void* pElement) {}
-
-int al_isEmpty(ArrayList* pList) {}
-
-void* al_pop(ArrayList* pList,int index) {}
 
 ArrayList* al_subList(ArrayList* pList,int from,int to) {}
 
