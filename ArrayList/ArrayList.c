@@ -88,8 +88,8 @@ int al_len(ArrayList* lista)
 }
 
 
-int al_contains(ArrayList* pList, void* pElement)
-{
+int al_contains(ArrayList* pList, void* pElement) //Funciona. Se le pasan dos punteros, y se fija que en el puntero al array de punteros dentro de ArrayList se encuentre
+{                                                 // el otro puntero que se le pasa como parametro.
     if (pList == NULL || pElement == NULL)
         return -1;
     for (int i = 0; i < pList->size; i++)
@@ -100,7 +100,26 @@ int al_contains(ArrayList* pList, void* pElement)
     return 0;
 }
 
+int al_set(ArrayList* pList, int index,void* pElement)
+{
+    if (pList == NULL || pElement == NULL)
+        return -1;
+    int auxTam = pList->size;
+    if (index < pList->size && index >= 0)
+    {
+        while (auxTam >= index)
+        {
+            pList->pElements[auxTam+1] = pList->pElements[auxTam];
+            auxTam--;
+        }
+        pList->pElements[index] = pElement;
+        pList->size++;
 
+    }else
+    {
+        return -1;
+    }
+}
 
 
 void* al_get(ArrayList* pList , int index){}
@@ -109,8 +128,6 @@ int al_deleteArrayList(ArrayList* pList){}
 
 int al_containsAll(ArrayList* pList,ArrayList* pList2){}
 
-
-int al_set(ArrayList* pList, int index,void* pElement){}
 
 int al_remove(ArrayList* pList,int index){}
 
