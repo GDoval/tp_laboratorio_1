@@ -145,7 +145,7 @@ int al_remove(ArrayList* pList,int index) //Funciona. Se  lee el array de punter
     return 0;
 }
 
-int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer un free() solo libera el primer indice del array
+int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer un free() solo libera el primer indice del array. ¿?
 {
     if (pList == NULL)
         return -1;
@@ -204,7 +204,7 @@ int al_isEmpty(ArrayList* pList)
     return 0;
 }
 
-void* al_get(ArrayList* pList, int index)
+void* al_get(ArrayList* pList, int index) //Funciona
 {
     if (pList == NULL)
         return NULL;
@@ -219,8 +219,8 @@ void* al_get(ArrayList* pList, int index)
     }
 }
 
-void* al_pop(ArrayList* pList,int index)
-{
+void* al_pop(ArrayList* pList,int index) //Funciona. Se guarda el puntero del indice indicado en un auxiliar, se llama a la funcion al_remove(),
+{                                        // se retorna el puntero y listo.
     if (pList == NULL)
         return NULL;
     void* aux;
@@ -236,13 +236,35 @@ void* al_pop(ArrayList* pList,int index)
 }
 
 
+int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona. Si alguno de los punteros del array de punteros de una lista
+{                                                      // es distinto que su homonimo en la otra lista, la funcion devuelve 0. Si nunca entro al if
+    if (pList == NULL || pList2 == NULL)               // devuelve 1.
+        return -1;
+    int tam;
+    if (pList->size > pList2->size)
+    {
+        tam = pList->size;
+    }else
+    {
+        tam = pList2->size;
+    }
+    for (int i = 0; i < tam; i++)
+    {
+        if (pList2->pElements[i] != pList->pElements[i])
+            return 0;
+    }
+    return 1;
+}
 
 
+int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
+{
+    if (pList == NULL)
+        return -1;
+    free(pList);
+    return 0;
+}
 
-
-int al_deleteArrayList(ArrayList* pList) {}
-
-int al_containsAll(ArrayList* pList,ArrayList* pList2) {}
 
 ArrayList* al_clone(ArrayList* pList) {}
 
