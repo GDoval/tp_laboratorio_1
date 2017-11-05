@@ -17,7 +17,6 @@ ArrayList* al_newArrayList()
             lista->size = 0;
             lista->pElements = arrayPuntero;
             lista->reservedSize = TAM_INICIAL;
-            lista->pepe = al_pepe;
             lista->add = al_add;
             lista->len = al_len;
             lista->set = al_set;
@@ -39,10 +38,6 @@ ArrayList* al_newArrayList()
     return auxiliar;
 }
 
-
-void al_pepe(){
-    printf("\n\nPepe!!!!!!!!!!!!!!\n\n");
-}
 
 int al_add(ArrayList* pList,void* pElement)
 {
@@ -71,7 +66,8 @@ int al_add(ArrayList* pList,void* pElement)
         pList->pElements[pList->size] = pElement;
         pList->size++; // se incrementa en uno el size para que quede registrado que se ingreso un nuevo elemento.
         devuelve = 0;
-    }else
+    }
+    else
     {
         printf("No se pudo agregar el nuevo elemento.");
         return devuelve;
@@ -89,7 +85,8 @@ int al_len(ArrayList* lista)
 
 
 int al_contains(ArrayList* pList, void* pElement) //Funciona. Se le pasan dos punteros, y se fija que en el puntero al array de punteros dentro de ArrayList se encuentre
-{                                                 // el otro puntero que se le pasa como parametro.
+{
+    // el otro puntero que se le pasa como parametro.
     if (pList == NULL || pElement == NULL)
         return -1;
     for (int i = 0; i < pList->size; i++)
@@ -115,41 +112,68 @@ int al_set(ArrayList* pList, int index,void* pElement)
         pList->pElements[index] = pElement;
         pList->size++;
 
-    }else
+    }
+    else
     {
         return -1;
     }
 }
 
 
-void* al_get(ArrayList* pList , int index){}
+int al_remove(ArrayList* pList,int index) //Funciona. Se hace un free() del puntero a eliminar, despues se lee el array de punteros del ArrayList
+{                                         // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
+    if (pList == NULL)                    // de control que no se asocia a ningun ciclo repetitivo, para que sea el indice del nuevo array, mientras que
+        return -1;                        // la variable de control del for() se usa como indice del viejo array para poder descartar el puntero que se
+    void** auxArray;                      // elimina. Finalmente se hace un free() del viejo array de punteros y se lo reemplaza con la direccion de memoria
+    int f = 0;                            // del nuevo, y se disminuye en 1 el tamaño del size.
+    free(pList->pElements[index]);
+    auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
 
-int al_deleteArrayList(ArrayList* pList){}
+    if (auxArray != NULL)
+    {
+        for (int i = 0; i < pList->size; i++)
+        {
+            if ( i != index)
+            {
+                auxArray[f] = pList->pElements[i];
+                f++;
+            }
+        }
+        free(pList->pElements);
+        pList->size--;
+        pList->pElements = auxArray;
 
-int al_containsAll(ArrayList* pList,ArrayList* pList2){}
+    }
+    return 0;
+}
 
 
-int al_remove(ArrayList* pList,int index){}
 
-int al_clear(ArrayList* pList){}
+void* al_get(ArrayList* pList, int index) {}
 
-ArrayList* al_clone(ArrayList* pList){}
+int al_deleteArrayList(ArrayList* pList) {}
 
-int al_push(ArrayList* pList, int index, void* pElement){}
+int al_containsAll(ArrayList* pList,ArrayList* pList2) {}
 
-int al_indexOf(ArrayList* pList, void* pElement){}
+int al_clear(ArrayList* pList) {}
 
-int al_isEmpty(ArrayList* pList){}
+ArrayList* al_clone(ArrayList* pList) {}
 
-void* al_pop(ArrayList* pList,int index){}
+int al_push(ArrayList* pList, int index, void* pElement) {}
 
-ArrayList* al_subList(ArrayList* pList,int from,int to){}
+int al_indexOf(ArrayList* pList, void* pElement) {}
 
-int al_sort(ArrayList* pList, int (*pFunc)(void* ,void*), int order){}
+int al_isEmpty(ArrayList* pList) {}
 
-int resizeUp(ArrayList* pList){}
+void* al_pop(ArrayList* pList,int index) {}
 
-int expand(ArrayList* pList,int index){}
+ArrayList* al_subList(ArrayList* pList,int from,int to) {}
 
-int contract(ArrayList* pList,int index){}
+int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
+
+int resizeUp(ArrayList* pList) {}
+
+int expand(ArrayList* pList,int index) {}
+
+int contract(ArrayList* pList,int index) {}
 

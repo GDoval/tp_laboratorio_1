@@ -10,7 +10,6 @@ struct ArrayList{
     int reservedSize;
 
     int     (*add)();
-    void    (*pepe)();
     int     (*len)();
     int     (*contains)();
     int     (*set)();
