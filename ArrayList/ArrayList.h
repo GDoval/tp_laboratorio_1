@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #ifndef __ARRAYLIST
 #define __ARRAYLIST
-
 struct ArrayList{
     int size;
-    void **pElements; // puntero a un array de punteros.
+    void **pElements;
     int reservedSize;
 
     int     (*add)();
+    void    (*pepe)();
     int     (*len)();
     int     (*contains)();
     int     (*set)();
@@ -31,19 +31,14 @@ struct ArrayList{
 #endif
 
 
-// Hacerlas como un plus nada mas
-int resizeUp(ArrayList* pList);
-int expand(ArrayList* pList,int index);
-int contract(ArrayList* pList,int index);
-//__
-
+void al_pepe();
 
 /** \brief Allocate a new arrayList with AL_INITIAL_VALUE elements.
  * \param void
  * \return ArrayList* Return (NULL) if Error [if can't allocate memory]
  *                  - (pointer to new arrayList) if ok
  */
-ArrayList* al_newArrayList(void);
+ArrayList* al_newArrayList();
 
 
 /** \brief  Add an element to arrayList and if is
@@ -224,3 +219,9 @@ int expand(ArrayList* pList,int index);
  */
 int contract(ArrayList* pList,int index);
 
+
+// Private function
+int resizeUp(ArrayList* pList);
+int expand(ArrayList* pList,int index);
+int contract(ArrayList* pList,int index);
+//___________________

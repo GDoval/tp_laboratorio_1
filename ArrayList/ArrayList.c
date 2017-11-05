@@ -1,8 +1,8 @@
 #include "ArrayList.h"
+#include "estructuras.h"
 
 
-
-ArrayList* al_newArrayList(void)
+ArrayList* al_newArrayList()
 {
     ArrayList* lista;
     ArrayList* auxiliar = NULL;
@@ -17,6 +17,7 @@ ArrayList* al_newArrayList(void)
             lista->size = 0;
             lista->pElements = arrayPuntero;
             lista->reservedSize = TAM_INICIAL;
+            lista->pepe = al_pepe;
             lista->add = al_add;
             lista->len = al_len;
             lista->set = al_set;
@@ -32,7 +33,106 @@ ArrayList* al_newArrayList(void)
             lista->pop = al_pop;
             lista->subList = al_subList;
             lista->deleteArrayList = al_deleteArrayList;
+            auxiliar = lista;
         }
     }
     return auxiliar;
 }
+
+
+void al_pepe(){
+    printf("\n\nPepe!!!!!!!!!!!!!!\n\n");
+}
+
+int al_add(ArrayList* pList,void* pElement)
+{
+    int devuelve = -1;
+    void** puntero; // Se crea un doble puntero a void. Sirve para guardar la nueva direccion de memoria de los elementos del array si hay que usar realloc()
+    int flag = 0;
+    if (pList == NULL || pElement == NULL) // se chequea que ningun puntero sea NULL
+        return devuelve;
+    if (pList->size == pList->reservedSize) //si el tamaño de la lista (size) es igual al tamaño total reservado (reservedSize) hay que hacer un realloc()
+    {
+        //Se guarda en una variable auxiliar erl nuevo puntero a array de punteros (por si devuelve NULL el nuevo puntero) . El nuevo array de punteros se crea multiplicando el tamaño de un puntero a void por el tamaño total reservado sumado a la constante.
+        //Esto crea un nuevo array de reservedSize + 10 elementos, con lo que se evita tener que hacer un realloc por cada campo extra que se quiera agregar. Aca se generan 10 mas por las dudas, si se llenan se llenan.
+        puntero = (void**) realloc(pList->pElements, sizeof(void*) * (pList->reservedSize + CONSTANTE));
+        if (puntero != NULL)
+        {
+            pList->reservedSize = pList->reservedSize + CONSTANTE; //si el nuevo puntero no es NULL hay que modificar el valor de la variable del ArrayList reservedSize, para que quede registrado el nuevo tamaño del array de punteros
+            pList->pElements = puntero; // se le pasa al array de punteros la nueva direccion de memoria
+        }
+        else
+        {
+            flag = 1; // en caso de que no se haya podido hacer el realloc()
+        }
+    }
+    if (flag == 0) // si el realloc se pudo hacer o no hizo falta (flag se inicializa en 0) se procede a guardar el nuevo elemento dentro del array de punteros del Arraylist
+    {
+        pList->pElements[pList->size] = pElement;
+        pList->size++; // se incrementa en uno el size para que quede registrado que se ingreso un nuevo elemento.
+        devuelve = 0;
+    }else
+    {
+        printf("No se pudo agregar el nuevo elemento.");
+        return devuelve;
+    }
+    return devuelve;
+}
+
+
+int al_len(ArrayList* lista)
+{
+    if (lista == NULL)
+        return -1;
+    return lista->size;
+}
+
+
+int al_contains(ArrayList* pList, void* pElement)
+{
+    if (pList == NULL || pElement == NULL)
+        return -1;
+    for (int i = 0; i < pList->size; i++)
+    {
+        if (pList->pElements[i] == pElement)
+            return 1;
+    }
+    return 0;
+}
+
+
+
+
+void* al_get(ArrayList* pList , int index){}
+
+int al_deleteArrayList(ArrayList* pList){}
+
+int al_containsAll(ArrayList* pList,ArrayList* pList2){}
+
+
+int al_set(ArrayList* pList, int index,void* pElement){}
+
+int al_remove(ArrayList* pList,int index){}
+
+int al_clear(ArrayList* pList){}
+
+ArrayList* al_clone(ArrayList* pList){}
+
+int al_push(ArrayList* pList, int index, void* pElement){}
+
+int al_indexOf(ArrayList* pList, void* pElement){}
+
+int al_isEmpty(ArrayList* pList){}
+
+void* al_pop(ArrayList* pList,int index){}
+
+ArrayList* al_subList(ArrayList* pList,int from,int to){}
+
+int al_sort(ArrayList* pList, int (*pFunc)(void* ,void*), int order){}
+
+int resizeUp(ArrayList* pList){}
+
+int expand(ArrayList* pList,int index){}
+
+int contract(ArrayList* pList,int index){}
+

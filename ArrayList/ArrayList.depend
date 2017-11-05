@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1509573347 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/main.c
+1509857404 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"ArrayList.h"
+	"estructuras.h"
 
-1509572562 /home/charly/CosasGit/tp_laboratorio_1/ArrayList/ArrayList.h
+1509834857 /home/charly/CosasGit/tp_laboratorio_1/ArrayList/ArrayList.h
 	<stdio.h>
 	<stdlib.h>
 
@@ -15,10 +16,20 @@
 	<string.h>
 	"ArrayList.h"
 
-1509573340 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/ArrayList.c
+1509857088 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/ArrayList.c
 	"ArrayList.h"
+	"estructuras.h"
 
 1509572562 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/ArrayList.h
 	<stdio.h>
 	<stdlib.h>
+
+1509855323 source:/home/charly/CosasGit/tp_laboratorio_1/ArrayList/estructuras.c
+	"estructuras.h"
+	"ArrayList.h"
+
+1509828456 /home/charly/CosasGit/tp_laboratorio_1/ArrayList/estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
 
