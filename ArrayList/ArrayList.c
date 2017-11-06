@@ -1,47 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ArrayList.h"
-#include "estructuras.h"
 
 
-ArrayList* al_newArrayList()
+ArrayList* al_newArrayList(void)
 {
-    ArrayList* lista;
-    ArrayList* auxiliar = NULL;
-    void** arrayPuntero;
-    lista = (ArrayList *)malloc(sizeof(ArrayList));
+    ArrayList* this;
+    ArrayList* returnAux = NULL;
+    void* pElements;
+    this = (ArrayList *)malloc(sizeof(ArrayList));
 
-    if (lista != NULL)
+    if(this != NULL)
     {
-        arrayPuntero = (void**) malloc(sizeof(void*)* TAM_INICIAL);
-        if (arrayPuntero != NULL)
+        pElements = malloc(sizeof(void *)*TAM_INICIAL );
+        if(pElements != NULL)
         {
-            lista->size = 0;
-            lista->pElements = arrayPuntero;
-            lista->reservedSize = TAM_INICIAL;
-            lista->add = al_add;
-            lista->len = al_len;
-            lista->set = al_set;
-            lista->remove = al_remove;
-            lista->clear = al_clear;
-            lista->get = al_get;
-            lista->contains = al_contains;
-            lista->containsAll = al_containsAll;
-            lista->clone = al_clone;
-            lista->indexOf = al_indexOf;
-            lista->push = al_push;
-            lista->isEmpty = al_isEmpty;
-            lista->pop = al_pop;
-            lista->subList = al_subList;
-            lista->deleteArrayList = al_deleteArrayList;
-            auxiliar = lista;
+            this->size=0;
+            this->pElements=pElements;
+            this->reservedSize=TAM_INICIAL;
+            this->add=al_add;
+            this->len=al_len;
+            this->set=al_set;
+            this->remove=al_remove;
+            this->clear=al_clear;
+            this->clone=al_clone;
+            this->get=al_get;
+            this->contains=al_contains;
+            this->push=al_push;
+            this->indexOf=al_indexOf;
+            this->isEmpty=al_isEmpty;
+            this->pop=al_pop;
+            this->subList=al_subList;
+            this->containsAll=al_containsAll;
+            this->deleteArrayList = al_deleteArrayList;
+            this->sort = al_sort;
+            returnAux = this;
+        }
+        else
+        {
+            free(this);
         }
     }
-    return auxiliar;
+
+    return returnAux;
 }
 
 
+/** \brief  Add an element to arrayList and if is
+ *          nessesary resize the array
+ * \param pList ArrayList* Pointer to arrayList
+ * \param pElement void* Pointer to element
+ * \return int Return (-1) if Error [pList or pElement are NULL pointer] - (0) if Ok
+ *
+ */
 int al_add(ArrayList* pList,void* pElement)
 {
-    void** puntero; // Se crea un doble puntero a void. Sirve para guardar la nueva direccion de memoria de los elementos del array si hay que usar realloc()
     int validar = 0;
     if (pList == NULL || pElement == NULL) // se chequea que ningun puntero sea NULL
         return -1;
@@ -61,7 +75,6 @@ int al_add(ArrayList* pList,void* pElement)
         return -1;
     }
 }
-
 
 int al_len(ArrayList* lista)
 {
@@ -88,6 +101,8 @@ int al_set(ArrayList* pList, int index,void* pElement) // Funciona
 {
     if (pList == NULL || pElement == NULL)
         return -1;
+    if (index > pList->size || index < 0)
+        return -1;
     pList->pElements[index] = pElement;
     return 0;
 }
@@ -108,13 +123,8 @@ int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer u
 {
     if (pList == NULL)
         return -1;
-    pList->pElements = NULL;
-    /*while(i < pList->size)
-    {
-        pList->pElements[i] = NULL;
-        i++;
-    }*/
-
+    free(pList->pElements);
+    pList->size = 0;
     return 0;
 }
 
@@ -122,7 +132,6 @@ int al_push(ArrayList* pList, int index, void* pElement) // Funciona
 {
     if (pList == NULL || pElement == NULL)
         return -1;
-    int auxTam = pList->size;
     int validar = 0;
     if (index <= pList->size && index >= 0)
     {
@@ -135,6 +144,7 @@ int al_push(ArrayList* pList, int index, void* pElement) // Funciona
         {
             pList->pElements[index] = pElement;
             pList->size++;
+            return 0;
         }
     }
     else
@@ -146,7 +156,7 @@ int al_push(ArrayList* pList, int index, void* pElement) // Funciona
 
 int al_indexOf(ArrayList* pList, void* pElement)
 {
-    if (pList == NULL)
+    if (pList == NULL || pElement == NULL)
         return -1;
     for (int i = 0; i < pList->size; i++)
     {
@@ -162,8 +172,8 @@ int al_isEmpty(ArrayList* pList)
     if (pList == NULL)
         return -1;
     if (pList->size > 0)
-        return 1;
-    return 0;
+        return 0;
+    return 1;
 }
 
 void* al_get(ArrayList* pList, int index) //Funciona
@@ -352,4 +362,5 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
 
 int resizeDown(ArrayList* pList) {}
+
 
