@@ -285,7 +285,26 @@ ArrayList* al_clone(ArrayList* pList) // Aparentemente funciona. Si se leen  las
     return clone;
 }
 
-ArrayList* al_subList(ArrayList* pList,int from,int to) {}
+ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, falto validar que to no sea mayor que from (o sea, que el destino no sea menor al origen)
+{
+    if (pList == NULL)
+        return NULL;
+    if (from < 0 || from > pList->size || to < 0 || to > pList->size)
+        return NULL;
+    ArrayList* sublista = al_newArrayList();
+    sublista->reservedSize = (to - from);
+    sublista->size = 0;
+    void** aux;
+    aux = (void**) realloc(sublista->pElements, sizeof(void*)* sublista->reservedSize);
+    if (aux != NULL)
+        sublista->pElements = aux;
+    for (int i = from; i < to+1; i++)
+    {
+        pList->add(sublista, pList->pElements[i]);
+    }
+    return sublista;
+}
+
 
 int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
