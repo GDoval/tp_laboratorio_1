@@ -24,17 +24,13 @@ int main()
     int r;
     miArchivo = fopen("data.csv", "r");
     r = parseArchivo(miArchivo, lista);
-    printf("Size antes del push:  %d \n\n", lista->size);
-    persona = lista->get(lista, 5);
-    printf("Nombre de la posicion 5 antes del push: %s\n\n", persona->nombre);
-    lista->push(lista, 5, aux);
-    persona = lista->get(lista, 5);
-    printf("Nombre de la posicion 5 despues del push: %s\n\n", persona->nombre);
-    aux = lista->get(lista, 6);
-    printf("Posicion 6 despues del push tiene que ser igual a posicion 5 antes: %s\n\n", aux->nombre);
-    printf("Size del array despues del push: %d\n", lista->size);
-    aux = lista->get(lista, 16);
-    printf("Por las dudas ultima posicion: %s\n", aux->nombre);
+    persona = lista->get(lista, 4);
+    printf("Nombre en posicion 4 antes del remove: %s", persona->nombre);
+    aux = lista->get(lista, 5);
+    printf("\n\nNombre en posicion 5 antes del remove: %s", aux->nombre);
+    lista->remove(lista, 4);
+    persona = lista->get(lista, 4);
+    printf("\n\nNombre en posicion 4 despues del remove: %s\n", persona->nombre);
     //free(lista);
     return 0;
 }

@@ -93,31 +93,16 @@ int al_set(ArrayList* pList, int index,void* pElement) // Funciona
 }
 
 //Asi como esta funciona pero hay que ver de hacerla usando resize, contract y esas funciones
-int al_remove(ArrayList* pList,int index) //Funciona. Se  lee el array de punteros del ArrayList
+int al_remove(ArrayList* pList,int index)
 {
-    // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
-    if (pList == NULL)                    // de control que no se asocia a ningun ciclo repetitivo, para que sea el indice del nuevo array, mientras que
-        return -1;                        // la variable de control del for() se usa como indice del viejo array para poder descartar el puntero que se
-    void** auxArray;                      // elimina, y se disminuye en 1 el tamaño del size.
-    int f = 0;
-    auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
-
-    if (auxArray != NULL)
-    {
-        for (int i = 0; i < pList->size; i++)
-        {
-            if ( i != index)
-            {
-                auxArray[f] = pList->pElements[i];
-                f++;
-            }
-        }
-        pList->size--;
-        pList->pElements = auxArray;
-
-    }
+    if (pList == NULL)
+        return -1;
+    contract(pList, index);
+    pList->size--;
     return 0;
 }
+
+
 
 int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer un free() solo libera el primer indice del array. ¿?
 {
@@ -133,7 +118,7 @@ int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer u
     return 0;
 }
 
-int al_push(ArrayList* pList, int index, void* pElement) // Usar funciones expand() resizeup.
+int al_push(ArrayList* pList, int index, void* pElement) // Funciona
 {
     if (pList == NULL || pElement == NULL)
         return -1;
@@ -199,8 +184,8 @@ void* al_get(ArrayList* pList, int index) //Funciona
 
 void* al_pop(ArrayList* pList,int index) //Funciona. Se guarda el puntero del indice indicado en un auxiliar, se llama a la funcion al_remove(),
 {
-    // se retorna el puntero y listo.
-    if (pList == NULL)					// USAR FUNCION EXPAND o RESIZEUP
+                                        // se retorna el puntero y listo.
+    if (pList == NULL)
         return NULL;
     void* aux;
     if (index >= 0 && index < pList->size)
@@ -314,7 +299,7 @@ int resizeUp(ArrayList* pList)
 
 int expand(ArrayList* pList,int index)// Hace lugar en el array para que entre un nuevo elemento. Se guarda el size en una variable, y se empieza
 {
-                                      // a desplazar los elementos desde el ultimo hasta el indice donde se va a guardar la nueva variable.
+    // a desplazar los elementos desde el ultimo hasta el indice donde se va a guardar la nueva variable.
     if (pList == NULL)
         return -1;
     int auxTam = pList->size;
@@ -327,12 +312,47 @@ int expand(ArrayList* pList,int index)// Hace lugar en el array para que entre u
 }
 
 
+int contract(ArrayList* pList,int index)
+{
+    if (pList == NULL)
+        return -1;
+    void** auxArray;
+    int f = 0;
+    auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
+    if (auxArray != NULL)
+    {
+        if (index <= pList->size && index >= 0)
+        {
+            for (int i = 0; i < pList->size; i++)
+            {
+                if ( i != index)
+                {
+                    auxArray[f] = pList->pElements[i];
+                    f++;
+                }
+            }
+            pList->pElements = auxArray;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        return -1;
+    }
+
+}
+
+
+
 int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
 
 
 
-int contract(ArrayList* pList,int index) {}
+
 
 int resizeDown(ArrayList* pList) {}
 
