@@ -38,41 +38,28 @@ ArrayList* al_newArrayList()
     return auxiliar;
 }
 
-//Revisarla cuando se tengan hechas las funciones privadas (rezieup etc etc)
+
 int al_add(ArrayList* pList,void* pElement)
 {
-    int devuelve = -1;
     void** puntero; // Se crea un doble puntero a void. Sirve para guardar la nueva direccion de memoria de los elementos del array si hay que usar realloc()
-    int flag = 0;
+    int validar = 0;
     if (pList == NULL || pElement == NULL) // se chequea que ningun puntero sea NULL
-        return devuelve;
-    if (pList->size == pList->reservedSize) //si el tamaño de la lista (size) es igual al tamaño total reservado (reservedSize) hay que hacer un realloc()
+        return -1;
+    if (pList->size == pList->reservedSize) //Si el array esta lleno se hace un resizeup()
     {
-        //Se guarda en una variable auxiliar erl nuevo puntero a array de punteros (por si devuelve NULL el nuevo puntero) . El nuevo array de punteros se crea multiplicando el tamaño de un puntero a void por el tamaño total reservado sumado a la constante.
-        //Esto crea un nuevo array de reservedSize + 10 elementos, con lo que se evita tener que hacer un realloc por cada campo extra que se quiera agregar. Aca se generan 10 mas por las dudas, si se llenan se llenan.
-        puntero = (void**) realloc(pList->pElements, sizeof(void*) * (pList->reservedSize + CONSTANTE));
-        if (puntero != NULL)
-        {
-            pList->reservedSize = pList->reservedSize + CONSTANTE; //si el nuevo puntero no es NULL hay que modificar el valor de la variable del ArrayList reservedSize, para que quede registrado el nuevo tamaño del array de punteros
-            pList->pElements = puntero; // se le pasa al array de punteros la nueva direccion de memoria
-        }
-        else
-        {
-            flag = 1; // en caso de que no se haya podido hacer el realloc()
-        }
+        validar = resizeUp(pList);
     }
-    if (flag == 0) // si el realloc se pudo hacer o no hizo falta (flag se inicializa en 0) se procede a guardar el nuevo elemento dentro del array de punteros del Arraylist
+    if (validar != -1) // si el realloc se pudo hacer o no hizo falta  se procede a guardar el nuevo elemento dentro del array de punteros del Arraylist
     {
         pList->pElements[pList->size] = pElement;
         pList->size++; // se incrementa en uno el size para que quede registrado que se ingreso un nuevo elemento.
-        devuelve = 0;
+        return 0;
     }
     else
     {
         printf("No se pudo agregar el nuevo elemento.");
-        return devuelve;
+        return -1;
     }
-    return devuelve;
 }
 
 
@@ -97,31 +84,18 @@ int al_contains(ArrayList* pList, void* pElement) //Funciona. Se le pasan dos pu
     return 0;
 }
 
-int al_set(ArrayList* pList, int index,void* pElement) // Sobreescribe el indice
+int al_set(ArrayList* pList, int index,void* pElement) // Funciona
 {
     if (pList == NULL || pElement == NULL)
         return -1;
-    int auxTam = pList->size;
-    if (index < pList->size && index >= 0)
-    {
-        while (auxTam >= index)
-        {
-            pList->pElements[auxTam+1] = pList->pElements[auxTam];
-            auxTam--;
-        }
-        pList->pElements[index] = pElement;
-        pList->size++;
-
-    }
-    else
-    {
-        return -1;
-    }
+    pList->pElements[index] = pElement;
+    return 0;
 }
 
 //Asi como esta funciona pero hay que ver de hacerla usando resize, contract y esas funciones
 int al_remove(ArrayList* pList,int index) //Funciona. Se  lee el array de punteros del ArrayList
-{                                         // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
+{
+    // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
     if (pList == NULL)                    // de control que no se asocia a ningun ciclo repetitivo, para que sea el indice del nuevo array, mientras que
         return -1;                        // la variable de control del for() se usa como indice del viejo array para poder descartar el puntero que se
     void** auxArray;                      // elimina, y se disminuye en 1 el tamaño del size.
@@ -160,30 +134,33 @@ int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer u
 }
 
 int al_push(ArrayList* pList, int index, void* pElement) // Usar funciones expand() resizeup.
- {
+{
     if (pList == NULL || pElement == NULL)
         return -1;
     int auxTam = pList->size;
-    if (index < pList->size && index >= 0)
+    int validar = 0;
+    if (index <= pList->size && index >= 0)
     {
-        while (auxTam >= index)
+        if(pList->size == pList->reservedSize)
         {
-            pList->pElements[auxTam+1] = pList->pElements[auxTam];
-            auxTam--;
+            resizeUp(pList);
         }
-        pList->pElements[index] = pElement;
-        pList->size++;
-
+        validar = expand(pList, index);
+        if (validar != -1)
+        {
+            pList->pElements[index] = pElement;
+            pList->size++;
+        }
     }
     else
     {
         return -1;
     }
- }
+}
 
 
- int al_indexOf(ArrayList* pList, void* pElement)
- {
+int al_indexOf(ArrayList* pList, void* pElement)
+{
     if (pList == NULL)
         return -1;
     for (int i = 0; i < pList->size; i++)
@@ -192,7 +169,7 @@ int al_push(ArrayList* pList, int index, void* pElement) // Usar funciones expan
             return i;
     }
     return 0;
- }
+}
 
 
 int al_isEmpty(ArrayList* pList)
@@ -213,38 +190,43 @@ void* al_get(ArrayList* pList, int index) //Funciona
     {
         aux = pList->pElements[index];
         return aux;
-    }else
+    }
+    else
     {
         return NULL;
     }
 }
 
 void* al_pop(ArrayList* pList,int index) //Funciona. Se guarda el puntero del indice indicado en un auxiliar, se llama a la funcion al_remove(),
-{                                        // se retorna el puntero y listo.
+{
+    // se retorna el puntero y listo.
     if (pList == NULL)					// USAR FUNCION EXPAND o RESIZEUP
         return NULL;
     void* aux;
-     if (index >= 0 && index < pList->size)
-     {
+    if (index >= 0 && index < pList->size)
+    {
         aux = pList->pElements[index];
         pList->remove(pList, index);
         return aux;
-     }else
-     {
+    }
+    else
+    {
         return NULL;
-     }
+    }
 }
 
 
 int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona. Si alguno de los punteros del array de punteros de una lista
-{                                                      // es distinto que su homonimo en la otra lista, la funcion devuelve 0. Si nunca entro al if
+{
+    // es distinto que su homonimo en la otra lista, la funcion devuelve 0. Si nunca entro al if
     if (pList == NULL || pList2 == NULL)               // devuelve 1.
         return -1;
     int tam;
     if (pList->size > pList2->size)
     {
         tam = pList->size;
-    }else
+    }
+    else
     {
         tam = pList2->size;
     }
@@ -259,10 +241,8 @@ int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona.
 
 int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
 
-{											// tiene que quedar como si fuese un new_arraylist, no destruirlo
-
-{											// tiene que quedar como si fuese un new_arraylist, no destruirlo
-
+{
+    // tiene que quedar como si fuese un new_arraylist, no destruirlo											// tiene que quedar como si fuese un new_arraylist, no destruirlo
     if (pList == NULL)
         return -1;
     free(pList);
@@ -271,7 +251,8 @@ int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayLis
 
 
 ArrayList* al_clone(ArrayList* pList) // Aparentemente funciona. Si se leen  las direcciones de memoria
-{                                     // de las listas desde el main se ve que son distintas. Si se hace un
+{
+    // de las listas desde el main se ve que son distintas. Si se hace un
     if (pList == NULL)                // al_deleteArraylist() de la lista original, del clone pueden seguir
         return NULL;                  // sacandose datos y de la original no.
     ArrayList* clone;
@@ -308,43 +289,6 @@ ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, f
         pList->add(sublista, pList->pElements[i]);
     }
     return sublista;
-
-
-ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, falto validar que to no sea mayor que from (o sea, que el destino no sea menor al origen)
-{
-    if (pList == NULL)
-        return NULL;
-    if (from < 0 || from > pList->size || to < 0 || to > pList->size)
-        return NULL;
-    ArrayList* sublista = al_newArrayList();
-    sublista->reservedSize = (to - from);
-    sublista->size = 0;
-    void** aux;
-    aux = (void**) realloc(sublista->pElements, sizeof(void*)* sublista->reservedSize);
-    if (aux != NULL)
-        sublista->pElements = aux;
-    for (int i = from; i < to+1; i++)
-    {
-        pList->add(sublista, pList->pElements[i]);
-    }
-    return sublista;
-}
-
-
-int resizeUp(ArrayList* pList)
-{
-    if (pList == NULL)
-        return -1;
-    void** aux;
-    aux = (void**) realloc(pList->pElements, sizeof(void*)* CONSTANTE);
-    if (aux != NULL)
-    {
-        pList->reservedSize = pList->reservedSize + CONSTANTE;
-        pList->pElements = aux;
-        return 1;
-    }
-    return 0;
-
 }
 
 
@@ -354,20 +298,39 @@ int resizeUp(ArrayList* pList)
     if (pList == NULL)
         return -1;
     void** aux;
-    aux = (void**) realloc(pList->pElements, sizeof(void*)* CONSTANTE);
+    aux = (void**) realloc(pList->pElements, sizeof(void*)* (pList->reservedSize +CONSTANTE));
     if (aux != NULL)
     {
         pList->reservedSize = pList->reservedSize + CONSTANTE;
         pList->pElements = aux;
         return 1;
     }
-    return 0;
+    else
+    {
+        return -1;
+    }
 }
+
+
+int expand(ArrayList* pList,int index)// Hace lugar en el array para que entre un nuevo elemento. Se guarda el size en una variable, y se empieza
+{
+                                      // a desplazar los elementos desde el ultimo hasta el indice donde se va a guardar la nueva variable.
+    if (pList == NULL)
+        return -1;
+    int auxTam = pList->size;
+    while (auxTam >= index)
+    {
+        pList->pElements[auxTam+1] = pList->pElements[auxTam];
+        auxTam--;
+    }
+    return 1;
+}
+
 
 int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
 
-int expand(ArrayList* pList,int index) {}
+
 
 int contract(ArrayList* pList,int index) {}
 
