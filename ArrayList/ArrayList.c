@@ -38,7 +38,7 @@ ArrayList* al_newArrayList()
     return auxiliar;
 }
 
-
+//Revisarla cuando se tengan hechas las funciones privadas (rezieup etc etc)
 int al_add(ArrayList* pList,void* pElement)
 {
     int devuelve = -1;
@@ -97,7 +97,7 @@ int al_contains(ArrayList* pList, void* pElement) //Funciona. Se le pasan dos pu
     return 0;
 }
 
-int al_set(ArrayList* pList, int index,void* pElement) // ¿Se duplica con la funcion al_push ()?
+int al_set(ArrayList* pList, int index,void* pElement) // Sobreescribe el indice
 {
     if (pList == NULL || pElement == NULL)
         return -1;
@@ -119,7 +119,7 @@ int al_set(ArrayList* pList, int index,void* pElement) // ¿Se duplica con la fu
     }
 }
 
-
+//Asi como esta funciona pero hay que ver de hacerla usando resize, contract y esas funciones
 int al_remove(ArrayList* pList,int index) //Funciona. Se  lee el array de punteros del ArrayList
 {                                         // y se lo guarda en un array auxiliar, menos la posicion que se quiere eliminar. Para eso se crea una variable
     if (pList == NULL)                    // de control que no se asocia a ningun ciclo repetitivo, para que sea el indice del nuevo array, mientras que
@@ -159,7 +159,7 @@ int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer u
     return 0;
 }
 
-int al_push(ArrayList* pList, int index, void* pElement)
+int al_push(ArrayList* pList, int index, void* pElement) // Usar funciones expand() resizeup.
  {
     if (pList == NULL || pElement == NULL)
         return -1;
@@ -221,7 +221,7 @@ void* al_get(ArrayList* pList, int index) //Funciona
 
 void* al_pop(ArrayList* pList,int index) //Funciona. Se guarda el puntero del indice indicado en un auxiliar, se llama a la funcion al_remove(),
 {                                        // se retorna el puntero y listo.
-    if (pList == NULL)
+    if (pList == NULL)					// USAR FUNCION EXPAND o RESIZEUP
         return NULL;
     void* aux;
      if (index >= 0 && index < pList->size)
@@ -258,7 +258,7 @@ int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona.
 
 
 int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
-{
+{											// tiene que quedar como si fuese un new_arraylist, no destruirlo 
     if (pList == NULL)
         return -1;
     free(pList);
