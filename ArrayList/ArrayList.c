@@ -351,8 +351,5 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
 
 
-
-
-
 int resizeDown(ArrayList* pList) {}
 
