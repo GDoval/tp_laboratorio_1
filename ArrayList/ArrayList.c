@@ -233,11 +233,9 @@ int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona.
     return 1;
 }
 
-
+// tiene que quedar como si fuese un new_arraylist, no destruirlo
 int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
-
 {
-    // tiene que quedar como si fuese un new_arraylist, no destruirlo											// tiene que quedar como si fuese un new_arraylist, no destruirlo
     if (pList == NULL)
         return -1;
     free(pList);
