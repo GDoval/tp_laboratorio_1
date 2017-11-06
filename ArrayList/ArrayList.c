@@ -266,7 +266,24 @@ int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayLis
 }
 
 
-ArrayList* al_clone(ArrayList* pList) {}
+ArrayList* al_clone(ArrayList* pList) // Aparentemente funciona. Si se leen  las direcciones de memoria
+{                                     // de las listas desde el main se ve que son distintas. Si se hace un
+    if (pList == NULL)                // al_deleteArraylist() de la lista original, del clone pueden seguir
+        return NULL;                  // sacandose datos y de la original no.
+    ArrayList* clone;
+    void** aux;
+    clone = al_newArrayList();
+    clone->size = pList->size;
+    clone->reservedSize = pList->reservedSize;
+    free(clone->pElements);
+    aux = (void**) realloc(clone->pElements, sizeof(void*) *pList->reservedSize);
+    if (aux != NULL)
+    {
+        aux = pList->pElements;
+        clone->pElements = aux;
+    }
+    return clone;
+}
 
 ArrayList* al_subList(ArrayList* pList,int from,int to) {}
 

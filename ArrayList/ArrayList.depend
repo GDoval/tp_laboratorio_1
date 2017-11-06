@@ -33,3 +33,27 @@
 	<stdlib.h>
 	<string.h>
 
+1509969448 source:c:\users\alumno\desktop\array\arraylist\arraylist.c
+	"ArrayList.h"
+	"estructuras.h"
+
+1509969448 c:\users\alumno\desktop\array\arraylist\arraylist.h
+	<stdio.h>
+	<stdlib.h>
+
+1509969448 c:\users\alumno\desktop\array\arraylist\estructuras.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1509969448 source:c:\users\alumno\desktop\array\arraylist\estructuras.c
+	"estructuras.h"
+	"ArrayList.h"
+
+1509969448 source:c:\users\alumno\desktop\array\arraylist\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ArrayList.h"
+	"estructuras.h"
+
