@@ -258,7 +258,11 @@ int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona.
 
 
 int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
+
 {											// tiene que quedar como si fuese un new_arraylist, no destruirlo
+
+{											// tiene que quedar como si fuese un new_arraylist, no destruirlo
+
     if (pList == NULL)
         return -1;
     free(pList);
@@ -284,6 +288,27 @@ ArrayList* al_clone(ArrayList* pList) // Aparentemente funciona. Si se leen  las
     }
     return clone;
 }
+
+
+ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, falto validar que to no sea mayor que from (o sea, que el destino no sea menor al origen)
+{
+    if (pList == NULL)
+        return NULL;
+    if (from < 0 || from > pList->size || to < 0 || to > pList->size)
+        return NULL;
+    ArrayList* sublista = al_newArrayList();
+    sublista->reservedSize = (to - from);
+    sublista->size = 0;
+    void** aux;
+    aux = (void**) realloc(sublista->pElements, sizeof(void*)* sublista->reservedSize);
+    if (aux != NULL)
+        sublista->pElements = aux;
+    for (int i = from; i < to+1; i++)
+    {
+        pList->add(sublista, pList->pElements[i]);
+    }
+    return sublista;
+
 
 ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, falto validar que to no sea mayor que from (o sea, que el destino no sea menor al origen)
 {
@@ -319,12 +344,32 @@ int resizeUp(ArrayList* pList)
         return 1;
     }
     return 0;
+
+}
+
+
+
+int resizeUp(ArrayList* pList)
+{
+    if (pList == NULL)
+        return -1;
+    void** aux;
+    aux = (void**) realloc(pList->pElements, sizeof(void*)* CONSTANTE);
+    if (aux != NULL)
+    {
+        pList->reservedSize = pList->reservedSize + CONSTANTE;
+        pList->pElements = aux;
+        return 1;
+    }
+    return 0;
 }
 
 int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
+
 
 int expand(ArrayList* pList,int index) {}
 
 int contract(ArrayList* pList,int index) {}
 
 int resizeDown(ArrayList* pList) {}
+
