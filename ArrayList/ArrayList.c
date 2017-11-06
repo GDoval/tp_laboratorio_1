@@ -306,11 +306,26 @@ ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, f
 }
 
 
-int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
+int resizeUp(ArrayList* pList) 
+{
+    if (pList == NULL)
+        return -1;
+    void** aux;
+    aux = (void**) realloc(pList->pElements, sizeof(void*)* CONSTANTE);
+    if (aux != NULL)
+    {
+        pList->reservedSize = pList->reservedSize + CONSTANTE;
+        pList->pElements = aux;
+        return 1;
+    }
+    return 0;
+}
 
-int resizeUp(ArrayList* pList) {}
+int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
 
 int expand(ArrayList* pList,int index) {}
 
 int contract(ArrayList* pList,int index) {}
+
+int resizeDown(ArrayList* pList) {}
 
