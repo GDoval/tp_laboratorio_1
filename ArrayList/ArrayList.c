@@ -47,13 +47,6 @@ ArrayList* al_newArrayList(void)
 }
 
 
-/** \brief  Add an element to arrayList and if is
- *          nessesary resize the array
- * \param pList ArrayList* Pointer to arrayList
- * \param pElement void* Pointer to element
- * \return int Return (-1) if Error [pList or pElement are NULL pointer] - (0) if Ok
- *
- */
 int al_add(ArrayList* pList,void* pElement)
 {
     int validar = 0;
@@ -243,22 +236,21 @@ int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayLis
 }
 
 
-ArrayList* al_clone(ArrayList* pList) // Aparentemente funciona. Si se leen  las direcciones de memoria
+ArrayList* al_clone(ArrayList* pList) // Funciona.
 {
-    // de las listas desde el main se ve que son distintas. Si se hace un
-    if (pList == NULL)                // al_deleteArraylist() de la lista original, del clone pueden seguir
-        return NULL;                  // sacandose datos y de la original no.
+    if (pList == NULL)
+        return NULL;
     ArrayList* clone;
     void** aux;
     clone = al_newArrayList();
-    clone->size = pList->size;
-    clone->reservedSize = pList->reservedSize;
-    free(clone->pElements);
     aux = (void**) realloc(clone->pElements, sizeof(void*) *pList->reservedSize);
     if (aux != NULL)
     {
-        aux = pList->pElements;
         clone->pElements = aux;
+        for (int i = 0; i < pList->size; i++)
+        {
+            pList->add(clone, pList->get(pList, i));
+        }
     }
     return clone;
 }
@@ -355,7 +347,27 @@ int contract(ArrayList* pList,int index)
 
 
 
-int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order) {}
+int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
+{
+    if (pList == NULL)
+        return -1;
+    int criterio;
+    void* aux;
+    for (int i = 0; i < pList->size; i++)
+    {
+        for (int j = i+1; j < pList->size; j++)
+        {
+            criterio = pFunc(pList->get(pList, i), pList->get(pList, j));
+            if (criterio == order)
+            {
+                aux = pList->get(pList, i);
+                pList->pElements[i] = pList->pElements[j];
+                pList->pElements[j] = aux;
+            }
+        }
+    }
+    return 0;
+}
 
 
 

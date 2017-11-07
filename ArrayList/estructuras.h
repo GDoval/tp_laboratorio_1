@@ -14,3 +14,4 @@ typedef struct{
 
 ePersona* persona_constructor();
 
+int compararNombre (void*, void*);

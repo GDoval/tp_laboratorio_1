@@ -52,3 +52,23 @@ ePersona* persona_constructor()
     }
     return auxiliar;
 }
+
+
+void imprimir(ArrayList* lista)
+{
+    ePersona* persona;
+    printf("ID     Nombre     Apellido\n\n ");
+    for (int i = 0; i < lista->size; i++)
+    {
+        persona = (ePersona*)lista->get(lista, i);
+        printf("%d    %s          %s\n", persona->id, persona->nombre, persona->apellido);
+    }
+}
+
+int compararNombre (void* persona1, void* persona2)
+{
+    if (strcmp(((ePersona*)persona1)->nombre, ((ePersona*)persona2)->nombre) > 0)
+        return 1;
+    return 0;
+}
+

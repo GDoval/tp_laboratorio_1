@@ -13,6 +13,7 @@ int main()
     FILE* otro;
     int a = 15;
     ArrayList* lista = al_newArrayList();
+    ArrayList* clonada;
     ePersona* persona;
     ePersona* aux;
     ePersona extra;
@@ -24,13 +25,12 @@ int main()
     int r;
     miArchivo = fopen("data.csv", "r");
     r = parseArchivo(miArchivo, lista);
-    persona = lista->get(lista, 4);
-    printf("Nombre en posicion 4 antes del remove: %s", persona->nombre);
-    aux = lista->get(lista, 5);
-    printf("\n\nNombre en posicion 5 antes del remove: %s", aux->nombre);
-    lista->remove(lista, 4);
-    persona = lista->get(lista, 4);
-    printf("\n\nNombre en posicion 4 despues del remove: %s\n", persona->nombre);
-    //free(lista);
+    clonada = lista->clone(lista);
+    imprimir(lista);
+    printf("---------------------------------------\n\n");
+    lista->sort(clonada, compararNombre, 1);
+    imprimir(clonada);
+    printf("---------------------------------------\n\n");
+    imprimir(lista);
     return 0;
 }
