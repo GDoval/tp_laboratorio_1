@@ -72,3 +72,13 @@ int compararNombre (void* persona1, void* persona2)
     return 0;
 }
 
+
+
+void sacarEnter(char vec[]) // borra el enter que queda en la ultima posicion del string cuando se usa fgets().
+{
+    int cant;
+    cant = strlen(vec);
+    vec[cant-1] = '\0';
+}
+
+

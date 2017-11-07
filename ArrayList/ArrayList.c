@@ -103,7 +103,7 @@ int al_set(ArrayList* pList, int index,void* pElement) // Funciona
 //Asi como esta funciona pero hay que ver de hacerla usando resize, contract y esas funciones
 int al_remove(ArrayList* pList,int index)
 {
-    if (pList == NULL)
+    if (pList == NULL || index > pList->size)
         return -1;
     contract(pList, index);
     pList->size--;
