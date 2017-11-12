@@ -96,11 +96,16 @@ int al_set(ArrayList* pList, int index,void* pElement) // Funciona
         return -1;
     if (index > pList->size || index < 0)
         return -1;
+    if (pList->size == pList->reservedSize)
+    {
+        pList->add(pList, pElement);
+        return 0;
+    }
     pList->pElements[index] = pElement;
     return 0;
 }
 
-//Asi como esta funciona pero hay que ver de hacerla usando resize, contract y esas funciones
+
 int al_remove(ArrayList* pList,int index)
 {
     if (pList == NULL || index > pList->size)
@@ -112,7 +117,7 @@ int al_remove(ArrayList* pList,int index)
 
 
 
-int al_clear(ArrayList* pList) // Funciona. Si en vez de NULL se intenta hacer un free() solo libera el primer indice del array. ¿?
+int al_clear(ArrayList* pList) // Funciona.
 {
     if (pList == NULL)
         return -1;
@@ -204,9 +209,9 @@ void* al_pop(ArrayList* pList,int index) //Funciona. Se guarda el puntero del in
 }
 
 
-int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona. Si alguno de los punteros del array de punteros de una lista
+int al_containsAll(ArrayList* pList,ArrayList* pList2) //Si alguno de los punteros del array de punteros de una lista
 {
-    // es distinto que su homonimo en la otra lista, la funcion devuelve 0. Si nunca entro al if
+                                                       // es distinto que su homonimo en la otra lista, la funcion devuelve 0. Si nunca entro al if
     if (pList == NULL || pList2 == NULL)               // devuelve 1.
         return -1;
     int tam;
@@ -226,12 +231,12 @@ int al_containsAll(ArrayList* pList,ArrayList* pList2) //Aparentemente funciona.
     return 1;
 }
 
-// tiene que quedar como si fuese un new_arraylist, no destruirlo
-int al_deleteArrayList(ArrayList* pList) // Funciona???? Los campos del ArrayList devuelven basura cuando se los invoca desde el main(), asique...
+int al_deleteArrayList(ArrayList* pList)
 {
     if (pList == NULL)
         return -1;
     free(pList);
+    free(pList->pElements);
     return 0;
 }
 
@@ -256,11 +261,11 @@ ArrayList* al_clone(ArrayList* pList) // Funciona.
 }
 
 
-ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, falto validar que to no sea mayor que from (o sea, que el destino no sea menor al origen)
+ArrayList* al_subList(ArrayList* pList,int from,int to)
 {
     if (pList == NULL)
         return NULL;
-    if (from < 0 || from > pList->size || to < 0 || to > pList->size)
+    if (from < 0 || from > pList->size || to < 0 || to > pList->size || from > to)
         return NULL;
     ArrayList* sublista = al_newArrayList();
     sublista->reservedSize = (to - from);
@@ -269,7 +274,7 @@ ArrayList* al_subList(ArrayList* pList,int from,int to) // En teoria funciona, f
     aux = (void**) realloc(sublista->pElements, sizeof(void*)* sublista->reservedSize);
     if (aux != NULL)
         sublista->pElements = aux;
-    for (int i = from; i < to+1; i++)
+    for (int i = from; i < to; i++)
     {
         pList->add(sublista, pList->pElements[i]);
     }
@@ -317,17 +322,18 @@ int contract(ArrayList* pList,int index)
     if (pList == NULL)
         return -1;
     void** auxArray;
-    int f = 0;
+    int f = index;
     auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
     if (auxArray != NULL)
     {
         if (index <= pList->size && index >= 0)
         {
-            for (int i = 0; i < pList->size; i++)
+            for (int i = index; i < pList->size; i++)
             {
                 if ( i != index)
                 {
                     auxArray[f] = pList->pElements[i];
+                    pList->size--;
                     f++;
                 }
             }
