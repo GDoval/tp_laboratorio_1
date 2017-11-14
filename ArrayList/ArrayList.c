@@ -110,9 +110,15 @@ int al_remove(ArrayList* pList,int index)
 {
     if (pList == NULL || index > pList->size)
         return -1;
-    contract(pList, index);
-    pList->size--;
-    return 0;
+    int r;
+    r = contract(pList, index);
+    if (r != -1)
+    {
+        return 0;
+    }else{
+        return -1;
+    }
+
 }
 
 
@@ -235,7 +241,6 @@ int al_deleteArrayList(ArrayList* pList)
 {
     if (pList == NULL)
         return -1;
-    free(pList);
     free(pList->pElements);
     return 0;
 }
@@ -333,11 +338,12 @@ int contract(ArrayList* pList,int index)
                 if ( i != index)
                 {
                     auxArray[f] = pList->pElements[i];
-                    pList->size--;
                     f++;
                 }
             }
+            pList->size--;
             pList->pElements = auxArray;
+            return 0;
         }
         else
         {
@@ -355,7 +361,7 @@ int contract(ArrayList* pList,int index)
 
 int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
 {
-    if (pList == NULL)
+    if (pList == NULL || pFunc == NULL)
         return -1;
     int criterio;
     void* aux;
@@ -363,8 +369,7 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
     {
         for (int j = i+1; j < pList->size; j++)
         {
-            criterio = pFunc(pList->get(pList, i), pList->get(pList, j));
-            if (criterio == order)
+            if ((pFunc(pList->get(pList, i), pList->get(pList, j)) == order))
             {
                 aux = pList->get(pList, i);
                 pList->pElements[i] = pList->pElements[j];
