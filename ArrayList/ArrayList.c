@@ -363,19 +363,47 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
 {
     if (pList == NULL || pFunc == NULL)
         return -1;
-    int criterio;
     void* aux;
-    for (int i = 0; i < pList->size; i++)
+    int r;
+    if (order == 1)
     {
-        for (int j = i+1; j < pList->size; j++)
+        for (int i = 0; i < pList->size-1; i++)
         {
-            if ((pFunc(pList->get(pList, i), pList->get(pList, j)) == order))
+            for (int j = i+1; j < pList->size; j++)
             {
-                aux = pList->get(pList, i);
-                pList->pElements[i] = pList->pElements[j];
-                pList->pElements[j] = aux;
+                r = pFunc(pList->get(pList, i), pList->get(pList, j));
+                if ( r == order)
+                {
+                    aux = pList->get(pList, i);
+                    pList->pElements[i] = pList->pElements[j];
+                    pList->pElements[j] = aux;
+                }
             }
         }
+    }
+    else
+    {
+        if (order == 0)
+        {
+            for (int i = 0; i < pList->size-1; i++)
+            {
+                for (int j = i+1; j < pList->size; j++)
+                {
+                    r = pFunc(pList->get(pList, i), pList->get(pList, j));
+                    if ( r == order)
+                    {
+                        aux = pList->get(pList, i);
+                        pList->pElements[i] = pList->pElements[j];
+                        pList->pElements[j] = aux;
+                    }
+                }
+            }
+        }
+        else
+        {
+            return -1;
+        }
+
     }
     return 0;
 }
