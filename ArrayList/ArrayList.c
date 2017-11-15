@@ -327,13 +327,13 @@ int contract(ArrayList* pList,int index)
     if (pList == NULL)
         return -1;
     void** auxArray;
-    int f = 0;
+    int f = index;
     auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
     if (auxArray != NULL)
     {
         if (index <= pList->size && index >= 0)
         {
-            for (int i = 0; i < pList->size; i++)
+            for (int i = index; i < pList->size; i++)
             {
                 if ( i != index)
                 {
@@ -372,7 +372,7 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
             for (int j = i+1; j < pList->size; j++)
             {
                 r = pFunc(pList->get(pList, i), pList->get(pList, j));
-                if ( r == order)
+                if ( r == 1)
                 {
                     aux = pList->get(pList, i);
                     pList->pElements[i] = pList->pElements[j];
@@ -390,7 +390,7 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
                 for (int j = i+1; j < pList->size; j++)
                 {
                     r = pFunc(pList->get(pList, i), pList->get(pList, j));
-                    if ( r == order)
+                    if ( r == -1)
                     {
                         aux = pList->get(pList, i);
                         pList->pElements[i] = pList->pElements[j];
@@ -407,7 +407,6 @@ int al_sort(ArrayList* pList, int (*pFunc)(void*,void*), int order)
     }
     return 0;
 }
-
 
 
 int resizeDown(ArrayList* pList) {}
