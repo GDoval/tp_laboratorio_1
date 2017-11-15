@@ -22,31 +22,31 @@ int main()
 
         switch(opcion)
         {
-            case 1:
-                system("clear");
-                agregarPelicula(peli);
-                break;
-            case 2:
-                system("clear");
-                borrarPelicula();
-                break;
-            case 3:
-                system("clear");
-                modificarPelicula();
-               break;
-            case 4:
-                generarHtml();
-                break;
-            case 5:
-                system("clear");
-                imprimirMovies();
-                break;
-            case 6:
-                seguir = 'n';
-                break;
-            default:
-                printf("\nOpcion incorrecta\n");
-                break;
+        case 1:
+            system("clear");
+            agregarPelicula(peli);
+            break;
+        case 2:
+            system("clear");
+            borrarPelicula();
+            break;
+        case 3:
+            system("clear");
+            modificarPelicula();
+            break;
+        case 4:
+            generarHtml();
+            break;
+        case 5:
+            system("clear");
+            imprimirMovies();
+            break;
+        case 6:
+            seguir = 'n';
+            break;
+        default:
+            printf("\nOpcion incorrecta\n");
+            break;
         }
     }
 

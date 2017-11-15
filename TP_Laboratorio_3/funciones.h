@@ -55,7 +55,7 @@ int validaInt (int,int, int);
  **/
 
 
-void generarHtml()
+void generarHtml();
 
 /*------------------------------------------------------------------*/
 

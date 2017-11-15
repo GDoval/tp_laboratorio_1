@@ -14,3 +14,18 @@
 
 1508611458 /home/charly/CosasGit/tp_laboratorio_1/TP_Laboratorio_3/funciones.h
 
+1510746609 source:c:\users\alumno\desktop\tp\tp_laboratorio_3\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"funciones.h"
+
+1510747847 c:\users\alumno\desktop\tp\tp_laboratorio_3\funciones.h
+
+1510747785 source:c:\users\alumno\desktop\tp\tp_laboratorio_3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+
