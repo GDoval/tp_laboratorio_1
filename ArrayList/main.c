@@ -33,14 +33,10 @@ int main()
             imprimir(lista);
             break;
         case 3:
-            persona = lista->get(lista, 5);
-            lista->push(lista, 6, persona);
+            lista->remove(lista, 4);
             break;
         case 4:
-            system("clear");
-            printf("Ingrese ID a eliminar: ");
-            scanf("%d", &r);
-            lista->remove(lista, r);
+            lista->remove(lista, 5);
             break;
 
 

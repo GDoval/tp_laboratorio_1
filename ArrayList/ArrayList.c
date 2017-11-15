@@ -241,7 +241,7 @@ int al_deleteArrayList(ArrayList* pList)
 {
     if (pList == NULL)
         return -1;
-    free(pList->pElements);
+    free(pList);
     return 0;
 }
 
@@ -327,13 +327,13 @@ int contract(ArrayList* pList,int index)
     if (pList == NULL)
         return -1;
     void** auxArray;
-    int f = index;
+    int f = 0;
     auxArray = (void**)realloc(pList->pElements, sizeof(void*) * (pList->reservedSize));
     if (auxArray != NULL)
     {
         if (index <= pList->size && index >= 0)
         {
-            for (int i = index; i < pList->size; i++)
+            for (int i = 0; i < pList->size; i++)
             {
                 if ( i != index)
                 {
